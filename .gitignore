@@ -35,4 +35,4 @@
 */.vs
 
 # Exclusions
-!TreasureHunt/externals
+!TreasureHunt/externals/*
