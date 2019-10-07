@@ -34,5 +34,13 @@
 # Visual Studio Extras
 */.vs
 
+# Extras
+*.ilk
+*.log
+*.tlog
+*.pdb
+*.lastbuildstate
+*.idb
+
 # Exclusions
 !TreasureHunt/externals/**
