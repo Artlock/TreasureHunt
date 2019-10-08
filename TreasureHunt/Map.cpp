@@ -14,11 +14,11 @@ Map::Map(Device* device, std::string path, std::string pathGround) : _device(dev
 	// Initializing the two dimentional array that will contain our values
 
 	// Create 1nd dimension
-	_mapData = new unsigned long* [MAP_SIZE_Y];
-	memset(_mapData, 0, sizeof(unsigned long*) * MAP_SIZE_Y);
+	_mapData = new unsigned long* [MAP_SIZE_H];
+	memset(_mapData, 0, sizeof(unsigned long*) * MAP_SIZE_H);
 
 	// Create 2nd dimension
-	for (int i = 0; i < MAP_SIZE_Y; i++)
+	for (int i = 0; i < MAP_SIZE_H; i++)
 	{
 		_mapData[i] = new unsigned long[MAP_SIZE_W];
 		memset(_mapData[i], 0, sizeof(unsigned long) * MAP_SIZE_W);
@@ -125,7 +125,7 @@ Map::Map(Device* device, std::string path, std::string pathGround) : _device(dev
 Map::~Map() // Destructor because ~
 {
 	// Deallocate the array from the heap
-	for (int i = 0; i < MAP_SIZE_Y; i++) {
+	for (int i = 0; i < MAP_SIZE_H; i++) {
 		delete[] _mapData[i];
 	}
 
@@ -145,7 +145,9 @@ void Map::displayMap(int tileSize)
 	int flipV = 0;
 	int flipD = 0;
 
-	for (int i = 0; i < MAP_SIZE_Y; i++)
+	int tileIndexInMap = 0;
+
+	for (int i = 0; i < MAP_SIZE_H; i++)
 		for (int j = 0; j < MAP_SIZE_W; j++)
 		{
 			// Get raw sprite index with flags
@@ -168,11 +170,25 @@ void Map::displayMap(int tileSize)
 
 			x = j * tileSize * MAP_TILE_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
 			y = i * tileSize * MAP_TILE_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
-			
+
+			// Check if tile is a "roof/roof-base" (Means it's linked to another tile down below, and should be rendered after said tile)
+			// If tile id = possible "roof/roof-base" id then check below and only display after the base one (Not the one directly below)
+
+			// We're still based on tiled ids here, the spritesheet will -1 the id later
+			int roofTileID = 417; // White wall, eventually replace with a list that contains all possible roof tiles
+			int currentBaseID = -1; // Default to -1, if -1 then not a roof
+
+			if (spriteIndex == roofTileID)
+			{
+				currentBaseID = checkHasBase(roofTileID, i, j);
+			}
+
 			if (!isGround(spriteIndex))
-				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 1, flipH, flipV, flipD);
+				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 1, flipH, flipV, flipD, tileIndexInMap, currentBaseID);
 			else
-				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 0, flipH, flipV, flipD);
+				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 0, flipH, flipV, flipD, tileIndexInMap, currentBaseID);
+
+			tileIndexInMap++;
 		}
 }
 
@@ -181,5 +197,15 @@ bool Map::isGround(int spriteIndex)
 	// Uses lambda expression ([&] captures all symbols by reference)
 	return std::any_of(std::begin(_mapGroundData), std::end(_mapGroundData), [&](int i) {
 		return i == spriteIndex;
-	});
+		});
+}
+
+int Map::checkHasBase(int roofTileID, int currentH, int currentW)
+{
+	// Check tile below, if it's a roof then return the ID of that tile, otherwise return -1
+
+	if (currentH < MAP_SIZE_H - 1 && _mapData[currentH][currentW] == roofTileID) // -1 because we need to have a tile below to check against
+		return currentH * MAP_SIZE_W + currentW;
+	else
+		return -1;
 }

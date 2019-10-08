@@ -6,7 +6,7 @@
 #define MAP_TILE_SCALE 1
 
 #define MAP_SIZE_W 48
-#define MAP_SIZE_Y 24
+#define MAP_SIZE_H 24
 
 class Device;
 
@@ -25,6 +25,7 @@ private:
 	std::vector<unsigned long> _mapGroundData;
 
 	bool isGround(int spriteIndex);
+	int checkHasBase(int roofTileID, int currentH, int currentW);
 
 public:
 	Map(Device* device, std::string path, std::string pathGround); // Constructor

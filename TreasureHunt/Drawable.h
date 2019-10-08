@@ -8,6 +8,9 @@ class SpriteSheet;
 class Drawable
 {
 private:
+	int _id = 0; // ID of current sprite
+	int _baseID = 0; // ID of sprite we're above. If this isn't equal to -1 then we display our drawable after its base has been displayed
+
 	int _sprite = 0;
 
 	int _posX = 0;
@@ -22,7 +25,7 @@ private:
 	int _layer = 0;
 
 public:
-	Drawable(int sprite, int posX, int posY, int scale, int layer, int flipH, int flipV, int flipD);
+	Drawable(int sprite, int posX, int posY, int scale, int layer, int flipH, int flipV, int flipD, int id, int baseID);
 	~Drawable();
 
 	void Draw(SpriteSheet* spriteSheet);
@@ -32,6 +35,9 @@ public:
 	int getPosBottomX();
 
 	// Getters
+	inline int getID() { return _id; }
+	inline int getBaseID() { return _baseID; }
+
 	inline int getSprite() { return _sprite; }
 
 	inline int getPosX() {
