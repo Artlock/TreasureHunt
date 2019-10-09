@@ -14,6 +14,7 @@ class SpriteSheet;
 class Map;
 class Player;
 class Drawable;
+class Zombie;
 
 class Device
 {
@@ -37,6 +38,7 @@ private:
 	SpriteSheet* _spriteSheet = NULL;
 	Map* _map = NULL;
 	Player* _player = NULL;
+	Zombie* _zombie = NULL;
 
 	std::vector<Drawable*> _toRender;
 

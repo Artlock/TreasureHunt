@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Drawable.h"
+#include "Zombie.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -36,6 +37,9 @@ Device::Device(const char* const title)
 	// Our map
 	_map = new Map(this, GetExePath() + "Assets/sample_fantasy.txt", GetExePath() + "Assets/layer0.txt");
 
+	// Our Zombie
+	_zombie = new Zombie(_player, this, GetExePath() + "Assets/zombie.txt");
+
 	// The list that will keep track of the drawing order
 	_toRender = std::vector<Drawable*>(TO_DISPLAY);
 }
@@ -62,6 +66,11 @@ Device::~Device()
 	if (_player != NULL)
 		delete _player;
 	_player = NULL;
+
+	if (_zombie != NULL) {
+		delete _zombie;
+	}
+	_zombie = NULL;
 }
 
 void Device::clearDrawables()
@@ -144,6 +153,9 @@ void Device::run()
 
 		/// Add player to list of objects to display
 		_player->displayPlayer();
+
+		// Add zombie to list of objects to display
+		_zombie->ZombieDraw();
 
 		// Sort all there is to draw and draw it
 		sortDrawables();
