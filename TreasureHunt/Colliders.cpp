@@ -10,6 +10,7 @@ Colliders::Colliders(std::string pathCollider) : _pathCollider(pathCollider)
 
 	Coord = new Coordinate(-1,-1);
 
+
 	// Create 1rst dimension
 	_ColliderData = new unsigned long* [MAP_SIZE_Y];
 	memset(_ColliderData, 0, sizeof(unsigned long*) * MAP_SIZE_Y);
@@ -74,8 +75,8 @@ Colliders::~Colliders()
 void Colliders::MakeList(int tileSize)
 {
 	unsigned long Index = 0;
-	int x = 0;
-	int y = 0;
+	float x = 0.f;
+	float y = 0.f;
 
 	for (int i = 0; i < MAP_SIZE_Y; i++)
 		for (int j = 0; j < MAP_SIZE_W; j++)
@@ -97,12 +98,27 @@ bool Colliders::Compare(float x, float y)
 {
 	for (std::list<Coordinate>::iterator it = listCoord.begin(); it != listCoord.end(); ++it) 
 	{
-		if (x > (*it).GetX() && x < (*it).GetX() + 16 && y < (*it).GetY() && y>(*it).GetY()-5)
+		for (float xBis = x; xBis <= x + TILE_SIZE; xBis += TILE_SIZE) 
 		{
-			std::cout << "True" << std::endl;
-			return true;
+			for (float yBis = y; yBis <= y + TILE_SIZE; yBis += TILE_SIZE)
+			{
+				if (it->GetX()+3 <= xBis && it->GetX()+TILE_SIZE-3 >= xBis && it->GetY()+3 <= yBis && it->GetY()+TILE_SIZE-3 >= yBis)
+				{
+					return true;
+				}
+			}
+		}
+
+		for (float ITxBis = it->GetX()+3; ITxBis <= it->GetX() + TILE_SIZE-3; ITxBis += TILE_SIZE-2*3)
+		{
+			for (float ITyBis = it->GetY()+3; ITyBis <= it->GetY() + TILE_SIZE-3; ITyBis += TILE_SIZE-2*3)
+			{
+				if (ITxBis <= x + TILE_SIZE && ITxBis >= x && ITyBis <= y+TILE_SIZE && ITyBis >= y)
+				{
+					return true;
+				}
+			}
 		}
 	}
-	std::cout << "False" << std::endl;
 	return false;
 }

@@ -2,12 +2,12 @@
 class Coordinate
 {
 private:
-	int _x = 0;
-	int _y = 0;
+	float _x = 0;
+	float _y = 0;
 public:
-	Coordinate(int x, int y);
+	Coordinate(float x, float y);
 	~Coordinate();
-	void changeCoordinate(int x, int y);
+	void changeCoordinate(float x, float y);
 	int GetX();
 	int GetY();
 };

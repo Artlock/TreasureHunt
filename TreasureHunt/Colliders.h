@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include <string>
 #include <list>
 #include "Coordinate.h"
@@ -7,6 +8,8 @@
 
 #define MAP_SIZE_W 48
 #define MAP_SIZE_Y 24
+
+#define TILE_SIZE 16
 
 class Colliders
 {

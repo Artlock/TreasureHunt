@@ -22,30 +22,36 @@ Player::~Player()
 // Update position in space
 void Player::move(float x, float y)
 {
-	if (!_colliders->Compare(x, y)) 
-	{
-		if (x != 0.0f)
-			_lastWasLeft = x < 0 ? true : false;
 
-		// Player moved, will be useful to know for the animator at the time of drawing
-		_isMoving = true;
+	if (x != 0.0f)
+		_lastWasLeft = x < 0 ? true : false;
 
-		// Move player
-		_x += x * PLAYER_SPEED * _device->getDeltaTime();
-		_y += y * PLAYER_SPEED * _device->getDeltaTime();
+	// Player moved, will be useful to know for the animator at the time of drawing
+	_isMoving = true;
 
-		// Prevent going outside of bounds (X axis)
-		if (_x < 0)
-			_x = 0;
-		else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= _device->getWindow()->getSize().x)
-			_x = _device->getWindow()->getSize().x - PLAYER_SIZE_W * PLAYER_SCALE;
+	float delta = _device->getDeltaTime();
 
-		// Prevent going outside of bounds (Y axis)
-		if (_y < 0)
-			_y = 0;
-		else if (_y + PLAYER_SIZE_Y * PLAYER_SCALE >= _device->getWindow()->getSize().y)
-			_y = _device->getWindow()->getSize().y - PLAYER_SIZE_Y * PLAYER_SCALE;
-	}
+	// Check collision
+	if (_colliders->Compare(_x + x * PLAYER_SPEED * delta, _y + y * PLAYER_SPEED * delta))return;
+
+	// Move player
+	_x += x * PLAYER_SPEED * delta;
+	_y += y * PLAYER_SPEED * delta;
+
+	// Prevent going outside of bounds (X axis)
+	if (_x < 0)
+		_x = 0;
+	else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= _device->getWindow()->getSize().x)
+		_x = _device->getWindow()->getSize().x - PLAYER_SIZE_W * PLAYER_SCALE;
+
+	// Prevent going outside of bounds (Y axis)
+	if (_y < 0)
+		_y = 0;
+	else if (_y + PLAYER_SIZE_Y * PLAYER_SCALE >= _device->getWindow()->getSize().y)
+		_y = _device->getWindow()->getSize().y - PLAYER_SIZE_Y * PLAYER_SCALE;
+
+
+
 }
 
 void Player::displayPlayer()
