@@ -15,12 +15,13 @@
 
 // Forward declaration, avoids having to import things that may change between compilations
 class Device;
+class Colliders;
 class Animator;
 
 class Player
 {
 public:
-	Player(Device* device, std::string path);
+	Player(Device* device,Colliders* colliders, std::string path);
 	~Player();
 
 	void move(float x, float y);
@@ -31,6 +32,7 @@ public:
 
 private:
 	Device* _device = NULL;
+	Colliders* _colliders = NULL;
 	Animator* _animator = NULL;
 
 	bool _isMoving = false;

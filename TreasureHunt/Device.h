@@ -14,6 +14,7 @@ class SpriteSheet;
 class Map;
 class Player;
 class Drawable;
+class Colliders;
 
 class Device
 {
@@ -32,6 +33,7 @@ public:
 
 private:
 	sf::RenderWindow* _window = NULL;
+	Colliders* _colliders = NULL;
 	sf::Clock* _clock = NULL;
 
 	SpriteSheet* _spriteSheet = NULL;

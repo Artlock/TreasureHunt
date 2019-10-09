@@ -1,9 +1,10 @@
 #include "Player.h"
 #include "Device.h"
 #include "Animator.h"
+#include "Colliders.h"
 
 // Constructor
-Player::Player(Device* device, std::string path) : _device(device)
+Player::Player(Device* device, Colliders* colliders, std::string path) : _device(device), _colliders(colliders)
 {
 	_animator = new Animator(path, PLAYER_ANIMATION_FRAMES);
 }
@@ -21,27 +22,30 @@ Player::~Player()
 // Update position in space
 void Player::move(float x, float y)
 {
-	if (x != 0.0f)
-		_lastWasLeft = x < 0 ? true : false;
+	if (!_colliders->Compare(x, y)) 
+	{
+		if (x != 0.0f)
+			_lastWasLeft = x < 0 ? true : false;
 
-	// Player moved, will be useful to know for the animator at the time of drawing
-	_isMoving = true;
+		// Player moved, will be useful to know for the animator at the time of drawing
+		_isMoving = true;
 
-	// Move player
-	_x += x * PLAYER_SPEED * _device->getDeltaTime();
-	_y += y * PLAYER_SPEED * _device->getDeltaTime();
+		// Move player
+		_x += x * PLAYER_SPEED * _device->getDeltaTime();
+		_y += y * PLAYER_SPEED * _device->getDeltaTime();
 
-	// Prevent going outside of bounds (X axis)
-	if (_x < 0)
-		_x = 0;
-	else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= _device->getWindow()->getSize().x)
-		_x = _device->getWindow()->getSize().x - PLAYER_SIZE_W * PLAYER_SCALE;
+		// Prevent going outside of bounds (X axis)
+		if (_x < 0)
+			_x = 0;
+		else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= _device->getWindow()->getSize().x)
+			_x = _device->getWindow()->getSize().x - PLAYER_SIZE_W * PLAYER_SCALE;
 
-	// Prevent going outside of bounds (Y axis)
-	if (_y < 0)
-		_y = 0;
-	else if (_y + PLAYER_SIZE_Y * PLAYER_SCALE >= _device->getWindow()->getSize().y)
-		_y = _device->getWindow()->getSize().y - PLAYER_SIZE_Y * PLAYER_SCALE;
+		// Prevent going outside of bounds (Y axis)
+		if (_y < 0)
+			_y = 0;
+		else if (_y + PLAYER_SIZE_Y * PLAYER_SCALE >= _device->getWindow()->getSize().y)
+			_y = _device->getWindow()->getSize().y - PLAYER_SIZE_Y * PLAYER_SCALE;
+	}
 }
 
 void Player::displayPlayer()

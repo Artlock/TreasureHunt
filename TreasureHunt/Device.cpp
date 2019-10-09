@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Drawable.h"
+#include "Colliders.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -26,9 +27,11 @@ Device::Device(const char* const title)
 	_clock = new sf::Clock();
 
 	_window->setFramerateLimit(60);
+	_colliders = new Colliders(GetExePath() + "Assets/collider.txt");
+	_colliders->MakeList(16);
 
 	// Our player
-	_player = new Player(this, GetExePath() + "Assets/player.txt");
+	_player = new Player(this,_colliders, GetExePath() + "Assets/player.txt");
 
 	// Our spritesheet
 	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored.png");
@@ -113,7 +116,7 @@ void Device::run()
 		// Save deltaTime for usage with player
 		_deltaTime = _clock->restart().asSeconds();
 
-		std::cout << "Delta Time : " << _deltaTime << std::endl;
+		//std::cout << "Delta Time : " << _deltaTime << std::endl;
 
 		// Manage events
 		while (_window->pollEvent(event))
