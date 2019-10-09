@@ -64,5 +64,5 @@ void Player::displayPlayer()
 		spriteToDraw = PLAYER_IDLE_SPRITE;
 	}
 
-	_device->addDrawable(spriteToDraw, _x, _y, PLAYER_SCALE, 1, 0, (_lastWasLeft ? 1 : 0), 0);
+	_device->addDrawable(spriteToDraw, _x, _y, PLAYER_SCALE, 1, (_lastWasLeft ? 1 : 0), 0, 0);
 }
