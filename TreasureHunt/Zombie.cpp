@@ -17,11 +17,6 @@ Zombie::~Zombie()
 	}
 	_player = NULL;
 
-	if (_device != NULL) {
-		delete _device;
-	}
-	_device = NULL;
-
 	if (_animator != NULL) {
 		delete _animator;
 	}
