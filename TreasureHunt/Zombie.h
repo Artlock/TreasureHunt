@@ -16,12 +16,14 @@ private:
 	sf::Vector2f direction;
 	sf::Vector2f normalizedDir;
 
-	int xPos;
-	int yPos;
+	float xPos;
+	float yPos;
 	float speed;
 
+	Device* _device = NULL;
+
 public:
-	Zombie(Player* player);
+	Zombie(Player* player, Device* device);
 	~Zombie();
 	void ZombieMove();
 };
