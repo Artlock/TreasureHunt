@@ -75,9 +75,9 @@ void SpriteSheet::DrawSprite(int spriteIndex, int x, int y, int scale, bool flip
 	{
 		// Can add up
 		if (flipH)
-			scaleY = -1;
-		if (flipV)
 			scaleX = -1;
+		if (flipV)
+			scaleY = -1;
 
 		_sprite->setScale(scaleX, scaleY); // Make the object flip around the origin
 	}
