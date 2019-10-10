@@ -24,7 +24,7 @@ public:
 	void run();
 	void quit();
 
-	void addDrawable(int sprite, int posX, int posY, int scale, int layer, int flipH = 0, int flipV = 0, int flipD = 0, int id = -1, int baseID = -1);
+	void addDrawable(int sprite, int posX, int posY, int scale, int layer, int posDrawAfterY, int flipH = 0, int flipV = 0, int flipD = 0);
 
 	// Inline methods because short
 	inline float getDeltaTime() { return _deltaTime; };

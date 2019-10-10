@@ -25,7 +25,7 @@ private:
 	std::vector<unsigned long> _mapGroundData;
 
 	bool isGround(int spriteIndex);
-	int checkHasBase(int roofTileID, int currentH, int currentW);
+	int checkHasBase(int roofTileID, int defaultY, int tileSize, int currentH, int currentW);
 
 public:
 	Map(Device* device, std::string path, std::string pathGround); // Constructor

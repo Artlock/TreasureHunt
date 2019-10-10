@@ -68,41 +68,29 @@ void Device::clearDrawables()
 {
 	// Uses lambda expression ([] does not capture anything)
 	std::for_each(_toRender.begin(), _toRender.end(), [](Drawable* drw)
-	{
-		delete drw;
-	});
+		{
+			delete drw;
+		});
 	// Equivalent to
 	// for (Drawable* drw : _toRender) delete drw;
 
 	_toRender.clear();
 }
 
-void Device::addDrawable(int sprite, int posX, int posY, int scale, int layer, int flipH, int flipV, int flipD, int id, int baseID)
+void Device::addDrawable(int sprite, int posX, int posY, int scale, int layer, int posDrawAfterY, int flipH, int flipV, int flipD)
 {
-	_toRender.push_back(new Drawable(sprite, posX, posY, scale, layer, flipH, flipV, flipD, id, baseID));
+	_toRender.push_back(new Drawable(sprite, posX, posY, scale, layer, posDrawAfterY, flipH, flipV, flipD));
 }
 
 void Device::sortDrawables()
 {
 	std::sort(_toRender.begin(), _toRender.end(), [&](Drawable* dr, Drawable* dr2)
-	{
+		{
 			if (dr->getLayer() != dr2->getLayer()) // Different layer
 				return dr->getLayer() < dr2->getLayer(); // Smaller layer displays first
 			else // Same layer
-				if (dr->getBaseID() == -1) // Has no base
-					return dr->getPosBottomY() < dr2->getPosBottomY();
-				else
-				{
-					// Does player need base ? (His id and baseId are -1) Might have to manage more things above
-					// dr->getBaseID() == -1 || dr->getID() == -1 || dr2->getBaseID() == -1 || dr2->getID() == -1
-					
-					// This is always true for some reason (They are always different) -> FIX THIS
-					std::string cc = (dr->getBaseID() != dr2->getID()) ? "True" : "False";
-					std::cout << cc << std::endl;
-
-					return dr->getPosBottomY() < dr2->getPosBottomY() && dr->getBaseID() != dr2->getID();
-				}
-	});
+				return dr->getPosDrawAfterY() < dr2->getPosDrawAfterY();
+		});
 }
 
 void Device::drawAll()

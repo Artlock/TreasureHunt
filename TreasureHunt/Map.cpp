@@ -9,8 +9,6 @@
 
 Map::Map(Device* device, std::string path, std::string pathGround) : _device(device)
 {
-	// _mapData
-
 	// Initializing the two dimentional array that will contain our values
 
 	// Create 1nd dimension
@@ -145,8 +143,6 @@ void Map::displayMap(int tileSize)
 	int flipV = 0;
 	int flipD = 0;
 
-	int tileIndexInMap = 0;
-
 	for (int i = 0; i < MAP_SIZE_H; i++)
 		for (int j = 0; j < MAP_SIZE_W; j++)
 		{
@@ -176,19 +172,15 @@ void Map::displayMap(int tileSize)
 
 			// We're still based on tiled ids here, the spritesheet will -1 the id later
 			int roofTileID = 417; // White wall, eventually replace with a list that contains all possible roof tiles
-			int currentBaseID = -1; // Default to -1, if -1 then not a roof
+			int currentBaseY = y;
 
 			if (spriteIndex == roofTileID)
-			{
-				currentBaseID = checkHasBase(roofTileID, i, j);
-			}
+				currentBaseY = checkHasBase(roofTileID, y, tileSize, i, j);
 
 			if (!isGround(spriteIndex))
-				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 1, flipH, flipV, flipD, tileIndexInMap, currentBaseID);
+				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 1, currentBaseY, flipH, flipV, flipD);
 			else
-				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 0, flipH, flipV, flipD, tileIndexInMap, currentBaseID);
-
-			tileIndexInMap++;
+				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 0, currentBaseY, flipH, flipV, flipD);
 		}
 }
 
@@ -200,12 +192,12 @@ bool Map::isGround(int spriteIndex)
 		});
 }
 
-int Map::checkHasBase(int roofTileID, int currentH, int currentW)
+int Map::checkHasBase(int roofTileID, int defaultY, int tileSize, int currentH, int currentW)
 {
-	// Check tile below, if it's a roof then return the ID of that tile, otherwise return -1
+	// -1 because we need to have a tile below to check against
 
-	if (currentH < MAP_SIZE_H - 1 && _mapData[currentH][currentW] == roofTileID) // -1 because we need to have a tile below to check against
-		return currentH * MAP_SIZE_W + currentW;
+	if (currentH < MAP_SIZE_H - 1 && (_mapData[currentH + 1][currentW] & ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG)) == roofTileID)
+		return (currentH + 1) * tileSize;
 	else
-		return -1;
+		return defaultY;
 }
