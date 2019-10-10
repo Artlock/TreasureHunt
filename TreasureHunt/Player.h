@@ -13,6 +13,8 @@
 
 #define PLAYER_IDLE_SPRITE 307
 
+#define PLAYER_LIFE 100
+
 // Forward declaration, avoids having to import things that may change between compilations
 class Device;
 class Animator;
@@ -20,11 +22,12 @@ class Animator;
 class Player
 {
 public:
-	Player(Device* device, std::string path);
+	Player(Device* device, std::string path, sf::RenderWindow* window);
 	~Player();
 
 	void move(float x, float y);
 	void displayPlayer();
+	void TakesDamage(float damage);
 
 	inline int getPosX() { return _x; }
 	inline int getPosY() { return _y; }
@@ -32,10 +35,12 @@ public:
 private:
 	Device* _device = NULL;
 	Animator* _animator = NULL;
+	sf::RenderWindow* _window;
 
 	bool _isMoving = false;
 	bool _lastWasLeft = false;
 
 	float _x = 0;
 	float _y = 0;
+	float _pLife = 0;
 };

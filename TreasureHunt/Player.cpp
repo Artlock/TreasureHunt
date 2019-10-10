@@ -1,11 +1,13 @@
 #include "Player.h"
 #include "Device.h"
 #include "Animator.h"
+#include <iostream>
 
 // Constructor
-Player::Player(Device* device, std::string path) : _device(device)
+Player::Player(Device* device, std::string path, sf::RenderWindow* window) : _device(device), _window(window)
 {
 	_animator = new Animator(path, PLAYER_ANIMATION_FRAMES);
+	_pLife = PLAYER_LIFE;
 }
 
 // Destructor
@@ -16,6 +18,10 @@ Player::~Player()
 	if (_animator != NULL)
 		delete _animator;
 	_animator = NULL;
+
+	if (_window != NULL)
+		delete _animator;
+	_window = NULL;
 }
 
 // Update position in space
@@ -61,4 +67,16 @@ void Player::displayPlayer()
 	}
 
 	_device->addDrawable(spriteToDraw, _x, _y, PLAYER_SCALE, 1, _y, (_lastWasLeft ? 1 : 0), 0, 0);
+}
+
+void Player::TakesDamage(float damage)
+{
+	if (_pLife > 0) {
+		_pLife -= damage;
+		std::cout << "Player's Life = " << _pLife << std::endl;
+	}
+	else {
+		std::cout << "Game Over!\n";
+		_window->close();
+	}
 }
