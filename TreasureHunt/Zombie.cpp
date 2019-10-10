@@ -17,6 +17,8 @@ Zombie::Zombie(Player* player, Device* device, std::string path)
 
 Zombie::~Zombie()
 {
+	_device = NULL;
+
 	if (_player != NULL) {
 		delete _player;
 	}
@@ -35,38 +37,15 @@ void Zombie::ZombieMove()
 	float _playerPosY = _player->getPosY();
 
 	// Zombie Behavior
-	/*if (_isMoving) {
-		_playerPos = sf::Vector2f(_playerPosX, _playerPosY);
-		zombiePosition = sf::Vector2f(xPos, yPos);
 
-		direction = _playerPos - zombiePosition;
-		std::cout << "Direction.x = " << direction.x << " , Direction.y = " << direction.y << std::endl;
-		normalizedDir = direction / sqrt((direction.x * direction.x) + (direction.y * direction.y));
-		std::cout << "normalized Direction X = " << normalizedDir.x << " , Normalized Direction Y = " << normalizedDir.y << std::endl;
-
-		_isMoving = true;
-
-		speed = Z_SPEED * _device->getDeltaTime();
-
-		xPos = xPos + normalizedDir.x * speed;
-		yPos = yPos + normalizedDir.y * speed;
-
-		sf::Vector2f currentSpeed = normalizedDir * speed;
-	}*/
-
-	// Player take Damage
-	if (xPos >= (_playerPosX - 5) && xPos <= (_playerPosX + 5) && yPos >= (_playerPosY - 5) && yPos <= (_playerPosY + 5)) {
-		_player->TakesDamage(5 * _device->getDeltaTime());
+	if (xPos >= (_playerPosX - 10) && xPos <= (_playerPosX + 10) && yPos >= (_playerPosY - 10) && yPos <= (_playerPosY + 10)) {
+		// Damaging Player
+		_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());
 		std::cout << "I inflict damage\n";
 	}
 
-	// Zombie stopping
-	if (xPos >= (_playerPosX - 3) && xPos <= (_playerPosX + 3) && yPos >= (_playerPosY - 3) && yPos <= (_playerPosY + 3)) {
-		//_isMoving = false;
-		std::cout << "I stop moving\n";
-	}
 	else {
-		// _isMoving = true;
+		// Zombie is moving
 		_playerPos = sf::Vector2f(_playerPosX, _playerPosY);
 		zombiePosition = sf::Vector2f(xPos, yPos);
 
@@ -84,13 +63,10 @@ void Zombie::ZombieMove()
 
 		sf::Vector2f currentSpeed = normalizedDir * speed;
 	}
-
-
-
 }
 
 // Display Zombie Sprite
-void Zombie::ZombieDraw() 
+void Zombie::ZombieDraw()
 {
 	int toDraw = 0;
 

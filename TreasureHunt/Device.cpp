@@ -26,10 +26,12 @@ Device::Device(const char* const title)
 	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title);
 	_clock = new sf::Clock();
 
+	// _window
+	_window->setVerticalSyncEnabled(true);
 	_window->setFramerateLimit(60);
 
 	// Our player
-	_player = new Player(this, GetExePath() + "Assets/player.txt");
+	_player = new Player(this, GetExePath() + "Assets/player.txt", _window);
 
 	// Our spritesheet
 	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored.png");

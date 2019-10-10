@@ -22,7 +22,7 @@ class Animator;
 class Player
 {
 public:
-	Player(Device* device, std::string path);
+	Player(Device* device, std::string path, sf::RenderWindow* window);
 	~Player();
 
 	void move(float x, float y);
@@ -35,11 +35,12 @@ public:
 private:
 	Device* _device = NULL;
 	Animator* _animator = NULL;
+	sf::RenderWindow* _window;
 
 	bool _isMoving = false;
 	bool _lastWasLeft = false;
 
 	float _x = 0;
 	float _y = 0;
-	int _pLife = 0;
+	float _pLife = 0;
 };
