@@ -22,6 +22,6 @@ public:
 	Colliders(std::string pathCollider);
 	~Colliders();
 	void MakeList(int tileSize);
-	bool Compare(float x, float y);
+	bool CompareMap(float x, float y);
 };
 

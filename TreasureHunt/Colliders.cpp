@@ -94,7 +94,7 @@ void Colliders::MakeList(int tileSize)
 		}
 }
 
-bool Colliders::Compare(float x, float y)
+bool Colliders::CompareMap(float x, float y)
 {
 	for (std::list<Coordinate>::iterator it = listCoord.begin(); it != listCoord.end(); ++it) 
 	{
