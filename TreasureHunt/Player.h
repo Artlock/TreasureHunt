@@ -13,6 +13,8 @@
 
 #define PLAYER_IDLE_SPRITE 307
 
+#define PLAYER_LIFE 100
+
 // Forward declaration, avoids having to import things that may change between compilations
 class Device;
 class Animator;
@@ -25,6 +27,7 @@ public:
 
 	void move(float x, float y);
 	void displayPlayer();
+	void TakesDamage(float damage);
 
 	inline int getPosX() { return _x; }
 	inline int getPosY() { return _y; }
@@ -38,4 +41,5 @@ private:
 
 	float _x = 0;
 	float _y = 0;
+	int _pLife = 0;
 };

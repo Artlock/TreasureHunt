@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#define Z_SPEED 1
-#define Z_INDEX 242
+#define Z_SPEED 30
+#define Z_INDEX 243
 #define Z_SCALE 1
 #define Z_ANIMATION_FRAME 2
 
@@ -20,8 +20,8 @@ private:
 
 	bool _isMoving = false;
 
-	float xPos = 50;
-	float yPos = 50;
+	float xPos = 150;
+	float yPos = 150;
 	float speed = 0;
 
 	Player* _player = NULL;

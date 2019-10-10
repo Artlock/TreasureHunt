@@ -142,6 +142,9 @@ void Device::run()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			_player->move(0.0f, 1.0f);
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+			_zombie->ZombieMove();
+
 		// Clear the window with black
 		_window->clear(sf::Color::Black);
 
@@ -155,6 +158,7 @@ void Device::run()
 		_player->displayPlayer();
 
 		// Add zombie to list of objects to display
+		// _zombie->ZombieMove();
 		_zombie->ZombieDraw();
 
 		// Sort all there is to draw and draw it
