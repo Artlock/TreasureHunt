@@ -25,13 +25,12 @@ Device::Device(const char* const title)
 {
 	// Our window
 	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title);
-	_window->setPosition(sf::Vector2i(50, 50));
+	_window->setPosition(sf::Vector2i(INITIAL_POS_WINDOW_WIDTH, INITIAL_POS_WINDOW_HEIGHT));
 	_clock = new sf::Clock();
-	std::cout << _window->getPosition().x << std::endl;
 
-	_window->setFramerateLimit(60);
+	_window->setFramerateLimit(MAX_FRAMERATE);
 	_colliders = new Colliders(GetExePath() + "Assets/collider.txt");
-	_colliders->MakeList(16);
+	_colliders->MakeList(TILE_SIZE);
 
 	// Our player
 	_player = new Player(this,_colliders, GetExePath() + "Assets/player.txt");
