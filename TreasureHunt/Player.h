@@ -23,7 +23,7 @@ class Animator;
 class Player
 {
 public:
-	Player(Device* device, Colliders* colliders, std::string path, sf::RenderWindow* window);
+	Player(Device* device, Colliders* colliders, std::string path);
 	~Player();
 
 	void move(float x, float y);
@@ -37,7 +37,6 @@ private:
 	Device* _device = NULL;
 	Colliders* _colliders = NULL;
 	Animator* _animator = NULL;
-	sf::RenderWindow* _window;
 
 	bool _isMoving = false;
 	bool _lastWasLeft = false;

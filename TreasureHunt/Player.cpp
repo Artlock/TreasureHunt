@@ -6,7 +6,7 @@
 #include <iostream>
 
 // Constructor
-Player::Player(Device* device, Colliders* colliders, std::string path, sf::RenderWindow* window) : _device(device), _window(window), _colliders(colliders)
+Player::Player(Device* device, Colliders* colliders, std::string path) : _device(device), _colliders(colliders)
 {
 	_animator = new Animator(path, PLAYER_ANIMATION_FRAMES);
 	_pLife = PLAYER_LIFE;
@@ -20,10 +20,6 @@ Player::~Player()
 	if (_animator != NULL)
 		delete _animator;
 	_animator = NULL;
-
-	if (_window != NULL)
-		delete _animator;
-	_window = NULL;
 }
 
 // Update position in space
@@ -85,6 +81,6 @@ void Player::TakesDamage(float damage)
 	}
 	else {
 		std::cout << "Game Over!\n";
-		_window->close();
+		_device->quit();
 	}
 }

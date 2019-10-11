@@ -4,7 +4,6 @@
 #include "Animator.h"
 #include <iostream>
 
-
 // Warning, the Zombie is currently a Ghost (Ignores collisions)!
 
 Zombie::Zombie(Player* player, Device* device, std::string path)
@@ -18,10 +17,6 @@ Zombie::Zombie(Player* player, Device* device, std::string path)
 Zombie::~Zombie()
 {
 	_device = NULL;
-
-	if (_player != NULL) {
-		delete _player;
-	}
 	_player = NULL;
 
 	if (_animator != NULL) {
@@ -38,7 +33,7 @@ void Zombie::ZombieMove()
 
 	// Zombie Behavior
 
-	if (xPos >= (_playerPosX - 10) && xPos <= (_playerPosX + 10) && yPos >= (_playerPosY - 10) && yPos <= (_playerPosY + 10))
+	if (xPos >= (_playerPosX - Z_DISTANCE) && xPos <= (_playerPosX + Z_DISTANCE) && yPos >= (_playerPosY - Z_DISTANCE) && yPos <= (_playerPosY + Z_DISTANCE))
 	{
 		// Damaging Player
 		_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());

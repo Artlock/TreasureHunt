@@ -10,6 +10,8 @@
 
 #define TO_DISPLAY 1153 // 1152 (= 48 * 24 tiles) + 1 player
 
+#define MAX_FRAMERATE 60
+
 class SpriteSheet;
 class Map;
 class Player;

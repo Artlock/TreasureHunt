@@ -25,22 +25,23 @@ Device::Device(const char* const title)
 {
 	// Our window
 	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title);
-	_clock = new sf::Clock();
-
-	// _window
 	_window->setVerticalSyncEnabled(true);
-	_window->setFramerateLimit(60);
-	_colliders = new Colliders(GetExePath() + "Assets/collider.txt");
-	_colliders->MakeList(16);
+	_window->setFramerateLimit(MAX_FRAMERATE);
 
-	// Our player
-	_player = new Player(this, _colliders, GetExePath() + "Assets/player.txt", _window);
+	_clock = new sf::Clock();
 
 	// Our spritesheet
 	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored.png");
 
+	// Our colliders
+	_colliders = new Colliders(GetExePath() + "Assets/collider.txt");
+	_colliders->MakeList(16);
+
 	// Our map
 	_map = new Map(this, GetExePath() + "Assets/sample_fantasy.txt", GetExePath() + "Assets/layer0.txt");
+
+	// Our player
+	_player = new Player(this, _colliders, GetExePath() + "Assets/player.txt");
 
 	// Our Zombie
 	_zombie = new Zombie(_player, this, GetExePath() + "Assets/zombie.txt");
