@@ -135,17 +135,23 @@ void Device::run()
 		}
 
 		// Manage user inputs here
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			_player->move(-1.0f, 0.0f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			_player->move(1.0f, 0.0f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			_player->move(0.0f, -1.0f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			_player->move(0.0f, 1.0f);
+		if (!_player->isDead()) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				_player->move(-1.0f, 0.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				_player->move(1.0f, 0.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				_player->move(0.0f, -1.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				_player->move(0.0f, 1.0f);
+		}
+		
+		else {
+			std::cout << "You're Dead!\n";
+		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-			_zombie->ZombieMove();
+		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+			_zombie->ZombieMove();*/
 
 		// Clear the window with black
 		_window->clear(sf::Color::Black);
@@ -156,11 +162,11 @@ void Device::run()
 		// Add map to list of objects to display
 		_map->displayMap(SC_TILE_SIZE_XY);
 
-		/// Add player to list of objects to display
+		// Add player to list of objects to display
 		_player->displayPlayer();
 
 		// Add zombie to list of objects to display
-		// _zombie->ZombieMove();
+		_zombie->ZombieMove();
 		_zombie->ZombieDraw();
 
 		// Sort all there is to draw and draw it

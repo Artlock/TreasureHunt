@@ -75,9 +75,12 @@ void Player::TakesDamage(float damage)
 		_pLife -= damage;
 		std::cout << "Player's Life = " << _pLife <<std::endl;
 	}
-	else {
-		std::cout << "Game Over!\n";
-		_window->close();
-	}
+}
 
+bool Player::isDead()
+{
+	if (_pLife <= 0)
+		return true;
+	else
+		return false;
 }

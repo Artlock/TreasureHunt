@@ -40,8 +40,10 @@ void Zombie::ZombieMove()
 
 	if (xPos >= (_playerPosX - 10) && xPos <= (_playerPosX + 10) && yPos >= (_playerPosY - 10) && yPos <= (_playerPosY + 10)) {
 		// Damaging Player
-		_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());
-		std::cout << "I inflict damage\n";
+		if (!_player->isDead()) {
+			_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());
+			std::cout << "I inflict damage\n";
+		}
 	}
 
 	else {
@@ -50,9 +52,9 @@ void Zombie::ZombieMove()
 		zombiePosition = sf::Vector2f(xPos, yPos);
 
 		direction = _playerPos - zombiePosition;
-		std::cout << "Direction.x = " << direction.x << " , Direction.y = " << direction.y << std::endl;
+		// std::cout << "Direction.x = " << direction.x << " , Direction.y = " << direction.y << std::endl;
 		normalizedDir = direction / sqrt((direction.x * direction.x) + (direction.y * direction.y));
-		std::cout << "normalized Direction X = " << normalizedDir.x << " , Normalized Direction Y = " << normalizedDir.y << std::endl;
+		// std::cout << "normalized Direction X = " << normalizedDir.x << " , Normalized Direction Y = " << normalizedDir.y << std::endl;
 
 		_isMoving = true;
 
