@@ -35,8 +35,12 @@ Device::Device(const char* const title)
 	_player = new Player(this, GetExePath() + "Assets/player.txt", _window);
 
 	// Player Lifebar
+	int horizontal = 0;
+	int vertical = 0;
+	GetDesktopResolution(horizontal, vertical);
+	std::cout << horizontal << " " << vertical << std::endl;
 	lifeBar = new sf::RenderWindow(sf::VideoMode(_player->_pLife * 5, 50), "Lifebar", sf::Style::None);
-	lifeBar->setPosition(sf::Vector2i(0, 0));
+	lifeBar->setPosition(sf::Vector2i(horizontal - 550, vertical - 100));
 	
 
 
@@ -192,7 +196,7 @@ void Device::run()
 
 		if (createWindow) {
 			timer += _deltaTime;
-			if (timer >= 5)
+			if (timer >= END_DELAY)
 				quit();
 		}
 
@@ -245,4 +249,19 @@ void Device::run()
 void Device::quit()
 {
 	_isRunning = false;
+}
+
+// Get the horizontal and vertical screen sizes in pixel
+void Device::GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	// Get a handle to the desktop window
+	const HWND hDesktop = GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	GetWindowRect(hDesktop, &desktop);
+	// The top left corner will have coordinates (0,0)
+	// and the bottom right corner will have coordinates
+	// (horizontal, vertical)
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
 }

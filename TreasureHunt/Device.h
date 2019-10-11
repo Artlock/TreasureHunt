@@ -10,6 +10,8 @@
 
 #define TO_DISPLAY 1153 // 1152 (= 48 * 24 tiles) + 1 player
 
+#define END_DELAY 5
+
 class SpriteSheet;
 class Map;
 class Player;
@@ -25,6 +27,7 @@ public:
 	void run();
 	void quit();
 	void addDrawable(int sprite, int posX, int posY, int scale, int layer, int flipH = 0, int flipV = 0, int flipD = 0);
+	void GetDesktopResolution(int& horizontal, int& vertical);
 
 	bool hasWin = false;
 
