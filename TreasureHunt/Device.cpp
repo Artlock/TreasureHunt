@@ -5,6 +5,7 @@
 #include "Drawable.h"
 #include "Zombie.h"
 
+// #include <Text.hpp>
 #include <iostream>
 #include <Windows.h>
 #include <algorithm>
@@ -33,6 +34,12 @@ Device::Device(const char* const title)
 	// Our player
 	_player = new Player(this, GetExePath() + "Assets/player.txt", _window);
 
+	// Player Lifebar
+	lifeBar = new sf::RenderWindow(sf::VideoMode(_player->_pLife * 5, 50), "Lifebar", sf::Style::None);
+	lifeBar->setPosition(sf::Vector2i(0, 0));
+	
+
+
 	// Our spritesheet
 	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored.png");
 
@@ -44,6 +51,29 @@ Device::Device(const char* const title)
 
 	// The list that will keep track of the drawing order
 	_toRender = std::vector<Drawable*>(TO_DISPLAY);
+
+	// Take the Font
+	bool loadResult = myFont.loadFromFile(GetExePath() + "Assets/DejaVuSans.ttf");
+	if (!loadResult)
+	{
+		// error
+		sf::err();
+	}
+	std::cout << GetExePath() + "Assets/DejaVuSans.ttf" << std::endl;
+
+	// Initiate GameOver Text
+	goText.setString("You Lose!");
+	goText.setFont(myFont);
+	goText.setCharacterSize(30);
+	goText.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	goText.setColor(sf::Color::Red);
+
+	// Initiate Win Text
+	winText.setString("You Win!");
+	winText.setFont(myFont);
+	winText.setCharacterSize(30);
+	winText.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	winText.setColor(sf::Color::Red);
 }
 
 // Destructor
@@ -112,6 +142,8 @@ void Device::drawAll()
 
 void Device::run()
 {
+
+
 	// State and timer for deltaTime
 	_isRunning = true;
 	_clock->restart();
@@ -124,7 +156,7 @@ void Device::run()
 		// Save deltaTime for usage with player
 		_deltaTime = _clock->restart().asSeconds();
 
-		std::cout << "Delta Time : " << _deltaTime << std::endl;
+		// std::cout << "Delta Time : " << _deltaTime << std::endl;
 
 		// Manage events
 		while (_window->pollEvent(event))
@@ -146,8 +178,33 @@ void Device::run()
 				_player->move(0.0f, 1.0f);
 		}
 		
-		else {
+		else if (_player->isDead()) {
 			std::cout << "You're Dead!\n";
+			sf::RenderWindow* endWindow;
+				if (!createWindow) {
+					endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The Game has ended");
+					createWindow = true;
+				}
+			endWindow->clear(sf::Color::White);
+			endWindow->draw(goText);
+			endWindow->display();
+		}
+
+		if (createWindow) {
+			timer += _deltaTime;
+			if (timer >= 5)
+				quit();
+		}
+
+		if (hasWin) {
+			sf::RenderWindow* endWindow;
+			if (!createWindow) {
+				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The Game has ended");
+				createWindow = true;
+			}
+			endWindow->clear(sf::Color::White);
+			endWindow->draw(winText);
+			endWindow->display();
 		}
 
 		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -175,6 +232,8 @@ void Device::run()
 
 		// Display the window's content
 		_window->display();
+		lifeBar->clear(sf::Color::Red);
+		lifeBar->display();
 	}
 
 	// Close the window

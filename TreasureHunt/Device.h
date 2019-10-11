@@ -24,26 +24,43 @@ public:
 
 	void run();
 	void quit();
-
 	void addDrawable(int sprite, int posX, int posY, int scale, int layer, int flipH = 0, int flipV = 0, int flipD = 0);
+
+	bool hasWin = false;
 
 	// Inline methods because short
 	inline float getDeltaTime() { return _deltaTime; };
 	inline sf::RenderWindow* getWindow() { return _window; };
 
+	sf::RenderWindow* lifeBar = NULL;
+
 private:
 	sf::RenderWindow* _window = NULL;
+
+
 	sf::Clock* _clock = NULL;
 
+	sf::Font myFont;
+
+	sf::Text goText;
+	sf::Text winText;
+
 	SpriteSheet* _spriteSheet = NULL;
+
 	Map* _map = NULL;
+
 	Player* _player = NULL;
+
 	Zombie* _zombie = NULL;
 
 	std::vector<Drawable*> _toRender;
 
 	bool _isRunning = false;
+	bool createWindow = false;
+
+
 	float _deltaTime = 0.0f;
+	float timer = 0;
 
 	void clearDrawables();
 	void sortDrawables();

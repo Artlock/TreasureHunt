@@ -28,6 +28,9 @@ public:
 	void move(float x, float y);
 	void displayPlayer();
 	void TakesDamage(float damage);
+
+	float _pLife = 0;
+
 	bool isDead();
 
 	inline int getPosX() { return _x; }
@@ -43,5 +46,4 @@ private:
 
 	float _x = 0;
 	float _y = 0;
-	float _pLife = 0;
 };

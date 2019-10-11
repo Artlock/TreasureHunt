@@ -20,7 +20,7 @@ Player::~Player()
 	_animator = NULL;
 
 	if (_window != NULL)
-		delete _animator;
+		delete _window;
 	_window = NULL;
 }
 
@@ -74,6 +74,8 @@ void Player::TakesDamage(float damage)
 	if (_pLife > 0) {
 		_pLife -= damage;
 		std::cout << "Player's Life = " << _pLife <<std::endl;
+		_device->lifeBar->setSize(sf::Vector2u(_pLife * 5, 50));
+
 	}
 }
 

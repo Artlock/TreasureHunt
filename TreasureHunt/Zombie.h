@@ -5,7 +5,7 @@
 #define Z_INDEX 243
 #define Z_SCALE 1
 #define Z_ANIMATION_FRAME 2
-#define Z_DAMAGES 10
+#define Z_DAMAGES 25
 
 class Device;
 class Player;

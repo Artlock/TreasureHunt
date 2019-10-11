@@ -17,13 +17,6 @@ Zombie::Zombie(Player* player, Device* device, std::string path)
 
 Zombie::~Zombie()
 {
-	_device = NULL;
-
-	if (_player != NULL) {
-		delete _player;
-	}
-	_player = NULL;
-
 	if (_animator != NULL) {
 		delete _animator;
 	}
@@ -80,7 +73,6 @@ void Zombie::ZombieDraw()
 	else {
 		_animator->Reset();
 		toDraw = Z_INDEX;
-		std::cout << toDraw << std::endl;
 	}
 
 	_device->addDrawable(toDraw, xPos, yPos, Z_SCALE, 1, false, 0, 0);
