@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #define PLAYER_SIZE_W 16
-#define PLAYER_SIZE_Y 16
+#define PLAYER_SIZE_H 16
 
 #define PLAYER_SPEED 100
 
