@@ -26,6 +26,7 @@ class Player;
 class Drawable;
 class Colliders;
 class WindowManager;
+class TreasureManager;
 
 class Device
 {
@@ -49,6 +50,7 @@ private:
 	sf::Clock* _clock = NULL;
 
 	SpriteSheet* _spriteSheet = NULL;
+	TreasureManager* _treasureManager = NULL;
 	Map* _map = NULL;
 	Player* _player = NULL;
 

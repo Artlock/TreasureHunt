@@ -5,6 +5,7 @@
 #include "Drawable.h"
 #include "Colliders.h"
 #include "WindowManager.h"
+#include "TreasureManager.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -36,7 +37,10 @@ Device::Device(const char* const title)
 	_player = new Player(this,_colliders, GetExePath() + "Assets/player.txt");
 
 	// Our spritesheet
-	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored.png");
+	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored_transparent.png");
+
+	// Our treasure
+	_treasureManager = new TreasureManager(this, GetExePath() + "Assets/treasure.txt");
 
 	// Our map
 	_map = new Map(this, GetExePath() + "Assets/sample_fantasy.txt", GetExePath() + "Assets/layer0.txt");
@@ -142,7 +146,7 @@ void Device::run()
 			_player->move(0.0f, 1.0f);
 
 		// Clear the window with black
-		_window->clear(sf::Color::Black);
+		_window->clear(sf::Color(71,45,60,255));
 
 		// Clear the list of items to draw
 		clearDrawables();
@@ -150,8 +154,11 @@ void Device::run()
 		// Add map to list of objects to display
 		_map->displayMap(SC_TILE_SIZE_XY);
 
-		/// Add player to list of objects to display
+		// Add player to list of objects to display
 		_player->displayPlayer();
+
+		// Add treasure to list of objects to display
+		_treasureManager->displayTreasure();
 
 		// Update Window
 		_windowManager->UpdateWindow();
@@ -162,6 +169,13 @@ void Device::run()
 
 		// Display the window's content
 		_window->display();
+
+		// Check finish
+
+		if (_treasureManager->checkTreasure(_player->getPosX(),_player->getPosY())) 
+		{
+			// Mettre la condition finish
+		}
 	}
 
 	// Close the window

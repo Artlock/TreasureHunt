@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#define PLAYER_SIZE 16
 
 class Player;
 class Coordinate;

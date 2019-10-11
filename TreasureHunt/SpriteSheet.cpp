@@ -4,8 +4,12 @@
 SpriteSheet::SpriteSheet(Device* device, std::string texturePath)
 	: _device(device)
 {
+	_image = new sf::Image();
+	_image->loadFromFile(texturePath);
+	_image->createMaskFromColor(sf::Color::White);
+
 	_texture = new sf::Texture();
-	_texture->loadFromFile(texturePath);
+	_texture->loadFromImage(*_image);
 
 	_sprite = new sf::Sprite();
 	_sprite->setTexture(*_texture);
