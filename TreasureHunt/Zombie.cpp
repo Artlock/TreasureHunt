@@ -42,7 +42,7 @@ void Zombie::ZombieMove()
 	{
 		// Damaging Player
 		_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());
-		std::cout << "I inflict damage\n";
+		std::cout << "I inflicted damage\n";
 	}
 	else
 	{
@@ -53,7 +53,6 @@ void Zombie::ZombieMove()
 		direction = _playerPos - zombiePosition;
 		std::cout << "Direction.x = " << direction.x << " , Direction.y = " << direction.y << std::endl;
 		normalizedDir = direction / sqrt((direction.x * direction.x) + (direction.y * direction.y));
-		std::cout << "normalized Direction X = " << normalizedDir.x << " , Normalized Direction Y = " << normalizedDir.y << std::endl;
 
 		_isMoving = true;
 		_lastWasLeft = direction.x >= 0 ? false : true;
@@ -80,7 +79,6 @@ void Zombie::ZombieDraw()
 	else {
 		_animator->Reset();
 		toDraw = Z_INDEX;
-		std::cout << toDraw << std::endl;
 	}
 
 	_device->addDrawable(toDraw, xPos, yPos, Z_SCALE, 1, yPos, (_lastWasLeft ? 1 : 0), 0, 0);
