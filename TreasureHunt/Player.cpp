@@ -54,8 +54,8 @@ void Player::move(float x, float y)
 	// Prevent going outside of bounds (Y axis)
 	if (_y < 0)
 		_y = 0;
-	else if (_y + PLAYER_SIZE_Y * PLAYER_SCALE >= _device->getWindow()->getSize().y)
-		_y = _device->getWindow()->getSize().y - PLAYER_SIZE_Y * PLAYER_SCALE;
+	else if (_y + PLAYER_SIZE_H * PLAYER_SCALE >= _device->getWindow()->getSize().y)
+		_y = _device->getWindow()->getSize().y - PLAYER_SIZE_H * PLAYER_SCALE;
 }
 
 void Player::displayPlayer()
