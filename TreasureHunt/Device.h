@@ -5,8 +5,11 @@
 #include <string>
 #include <vector>
 
-#define DEVICE_WIDTH 768 // 16 * 48 pixels
-#define DEVICE_HEIGHT 384 // 16 * 24 pixels
+#define DEVICE_WIDTH 100 
+#define DEVICE_HEIGHT 100 
+
+#define MAP_WIDTH 768 // 16 * 48 pixels 
+#define MAP_HEIGHT 384 // 16 * 24 pixels
 
 #define TO_DISPLAY 1153 // 1152 (= 48 * 24 tiles) + 1 player
 
@@ -15,6 +18,7 @@ class Map;
 class Player;
 class Drawable;
 class Colliders;
+class WindowManager;
 
 class Device
 {
@@ -34,6 +38,7 @@ public:
 private:
 	sf::RenderWindow* _window = NULL;
 	Colliders* _colliders = NULL;
+	WindowManager* _windowManager = NULL;
 	sf::Clock* _clock = NULL;
 
 	SpriteSheet* _spriteSheet = NULL;

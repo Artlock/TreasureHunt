@@ -69,7 +69,13 @@ Colliders::Colliders(std::string pathCollider) : _pathCollider(pathCollider)
 
 Colliders::~Colliders() 
 {
-	
+	for (int i = 0; i < MAP_SIZE_Y; i++) {
+		delete[] _ColliderData[i];
+	}
+
+	delete[] _ColliderData;
+	_ColliderData = NULL;
+	Coord = NULL;
 }
 
 void Colliders::MakeList(int tileSize)

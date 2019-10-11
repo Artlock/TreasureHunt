@@ -1,5 +1,6 @@
 #include "Drawable.h"
 #include "SpriteSheet.h"
+#include "Coordinate.h"
 
 Drawable::Drawable(int sprite, int posX, int posY, int scale, int layer, int flipH, int flipV, int flipD)
 	: _sprite(sprite), _posX(posX), _posY(posY), _scale(scale), _layer(layer), _flipH(flipH), _flipV(flipV), _flipD(flipD)
@@ -12,9 +13,9 @@ Drawable::~Drawable()
 
 }
 
-void Drawable::Draw(SpriteSheet* spriteSheet)
+void Drawable::Draw(SpriteSheet* spriteSheet, Coordinate* offSet)
 {
-	spriteSheet->DrawSprite(_sprite, _posX, _posY, _scale, _flipH, _flipV, _flipD);
+	spriteSheet->DrawSprite(_sprite, _posX-offSet->GetX(), _posY - offSet->GetY(), _scale, _flipH, _flipV, _flipD);
 }
 
 // Used for better layer comparisons

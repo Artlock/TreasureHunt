@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Drawable.h"
 #include "Colliders.h"
+#include "WindowManager.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -24,7 +25,9 @@ Device::Device(const char* const title)
 {
 	// Our window
 	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title);
+	_window->setPosition(sf::Vector2i(50, 50));
 	_clock = new sf::Clock();
+	std::cout << _window->getPosition().x << std::endl;
 
 	_window->setFramerateLimit(60);
 	_colliders = new Colliders(GetExePath() + "Assets/collider.txt");
@@ -38,6 +41,9 @@ Device::Device(const char* const title)
 
 	// Our map
 	_map = new Map(this, GetExePath() + "Assets/sample_fantasy.txt", GetExePath() + "Assets/layer0.txt");
+
+	// Our WindowManager
+	_windowManager = new WindowManager(_window, _player);
 
 	// The list that will keep track of the drawing order
 	_toRender = std::vector<Drawable*>(TO_DISPLAY);
@@ -98,7 +104,7 @@ void Device::drawAll()
 {
 	for (int i = 0; i < _toRender.size(); i++)
 	{
-		_toRender[i]->Draw(_spriteSheet);
+		_toRender[i]->Draw(_spriteSheet,_windowManager->GetOffSet());
 	}
 }
 
@@ -147,6 +153,9 @@ void Device::run()
 
 		/// Add player to list of objects to display
 		_player->displayPlayer();
+
+		// Update Window
+		_windowManager->UpdateWindow();
 
 		// Sort all there is to draw and draw it
 		sortDrawables();
