@@ -8,6 +8,7 @@
 #include "WindowManager.h"
 #include "TreasureManager.h"
 
+// #include <Text.hpp>
 #include <iostream>
 #include <Windows.h>
 #include <algorithm>
@@ -62,6 +63,37 @@ Device::Device(const char* const title)
 
 	// The list that will keep track of the drawing order
 	_toRender = std::vector<Drawable*>(TO_DISPLAY);
+
+	// Load the font
+	bool loadResult = myFont.loadFromFile(GetExePath() + "Assets/DejaVuSans.ttf");
+	if (!loadResult)
+	{
+		// Error
+		sf::err();
+	}
+	std::cout << GetExePath() + "Assets/DejaVuSans.ttf" << std::endl;
+
+	// Initiate GameOver Text
+	goText.setString("You Lose!");
+	goText.setFont(myFont);
+	goText.setCharacterSize(30);
+	goText.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	goText.setFillColor(sf::Color::Red);
+
+	// Initiate Win Text
+	winText.setString("You Win!");
+	winText.setFont(myFont);
+	winText.setCharacterSize(30);
+	winText.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	winText.setFillColor(sf::Color::Red);
+
+	// Player Lifebar
+	int horizontal = 0;
+	int vertical = 0;
+	GetDesktopResolution(horizontal, vertical);
+	std::cout << horizontal << " " << vertical << std::endl;
+	lifeBar = new sf::RenderWindow(sf::VideoMode(_player->_pLife * 5, 50), "Lifebar", sf::Style::None);
+	lifeBar->setPosition(sf::Vector2i(horizontal - 550, vertical - 100));
 }
 
 // Destructor
@@ -126,12 +158,14 @@ void Device::drawAll()
 {
 	for (int i = 0; i < _toRender.size(); i++)
 	{
-		_toRender[i]->Draw(_spriteSheet,_windowManager->GetOffSet());
+		_toRender[i]->Draw(_spriteSheet, _windowManager->GetOffSet());
 	}
 }
 
 void Device::run()
 {
+
+
 	// State and timer for deltaTime
 	_isRunning = true;
 	_clock->restart();
@@ -155,20 +189,60 @@ void Device::run()
 		}
 
 		// Manage user inputs here
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			_player->move(-1.0f, 0.0f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			_player->move(1.0f, 0.0f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			_player->move(0.0f, -1.0f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			_player->move(0.0f, 1.0f);
+		if (!_player->isDead()) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				_player->move(-1.0f, 0.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				_player->move(1.0f, 0.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				_player->move(0.0f, -1.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				_player->move(0.0f, 1.0f);
+		}
 
+		else if (_player->isDead()) {
+			std::cout << "You're Dead!\n";
+			sf::RenderWindow* endWindow = NULL;
+			if (!createWindow) {
+				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The Game has ended");
+				createWindow = true;
+			}
+			if (endWindow != NULL)
+			{
+				endWindow->clear(sf::Color::White);
+				endWindow->draw(goText);
+				endWindow->display();
+			}
+		}
+
+		if (createWindow) {
+			timer += _deltaTime;
+			if (timer >= END_DELAY)
+				quit();
+		}
+
+		if (hasWin) {
+			sf::RenderWindow* endWindow = NULL;
+			if (!createWindow) {
+				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The Game has ended");
+				createWindow = true;
+			}
+			if (endWindow != NULL)
+			{
+				endWindow->clear(sf::Color::White);
+				endWindow->draw(winText);
+				endWindow->display();
+			}
+		}
+
+		// Move zombie on keyboard press
+		/*
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			_zombie->ZombieMove();
+		*/
 
 		// Clear the window with our background color
-		_window->clear(sf::Color(71,45,60,255));
+		_window->clear(sf::Color(71, 45, 60, 255));
 
 		// Clear the list of items to draw
 		clearDrawables();
@@ -182,7 +256,8 @@ void Device::run()
 		// Add player to list of objects to display
 		_player->displayPlayer();
 
-		// Add zombie to list of objects to display
+		// Add zombie to list of objects to display after moving it towards the player
+		_zombie->ZombieMove();
 		_zombie->ZombieDraw();
 
 		// Update window
@@ -196,11 +271,14 @@ void Device::run()
 		_window->display();
 
 		// Check finish
-
-		if (_treasureManager->checkTreasure(_player->getPosX(),_player->getPosY())) 
+		if (_treasureManager->checkTreasure(_player->getPosX(), _player->getPosY()))
 		{
 			// Mettre la condition finish
 		}
+
+		// Update lifebar
+		lifeBar->clear(sf::Color::Red);
+		lifeBar->display();
 	}
 
 	// Close the window
@@ -212,4 +290,19 @@ void Device::run()
 void Device::quit()
 {
 	_isRunning = false;
+}
+
+// Get the horizontal and vertical screen sizes in pixel
+void Device::GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	// Get a handle to the desktop window
+	const HWND hDesktop = GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	GetWindowRect(hDesktop, &desktop);
+	// The top left corner will have coordinates (0,0)
+	// and the bottom right corner will have coordinates
+	// (horizontal, vertical)
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
 }

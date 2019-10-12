@@ -30,6 +30,10 @@ public:
 	void displayPlayer();
 	void TakesDamage(float damage);
 
+	float _pLife = 0;
+
+	bool isDead();
+
 	inline int getPosX() { return _x; }
 	inline int getPosY() { return _y; }
 
@@ -43,5 +47,4 @@ private:
 
 	float _x = 0;
 	float _y = 0;
-	float _pLife = 0;
 };

@@ -20,6 +20,8 @@
 
 #define MAX_FRAMERATE 60
 
+#define END_DELAY 5
+
 class SpriteSheet;
 class Map;
 class Player;
@@ -40,18 +42,29 @@ public:
 
 	void addDrawable(int sprite, int posX, int posY, int scale, int layer, int posDrawAfterY, int flipH = 0, int flipV = 0, int flipD = 0);
 
+	void GetDesktopResolution(int& horizontal, int& vertical);
+
+	bool hasWin = false;
+
 	// Inline methods because short
 	inline float getDeltaTime() { return _deltaTime; };
 	inline sf::RenderWindow* getWindow() { return _window; };
 
+	sf::RenderWindow* lifeBar = NULL;
+
 private:
 	sf::RenderWindow* _window = NULL;
-	Colliders* _colliders = NULL;
+
 	WindowManager* _windowManager = NULL;
+
 	sf::Clock* _clock = NULL;
+	sf::Font myFont;
+	sf::Text goText;
+	sf::Text winText;
 
 	SpriteSheet* _spriteSheet = NULL;
 	TreasureManager* _treasureManager = NULL;
+	Colliders* _colliders = NULL;
 	Map* _map = NULL;
 	Player* _player = NULL;
 	Zombie* _zombie = NULL;
@@ -59,7 +72,11 @@ private:
 	std::vector<Drawable*> _toRender;
 
 	bool _isRunning = false;
+	bool createWindow = false;
+
+
 	float _deltaTime = 0.0f;
+	float timer = 0;
 
 	void clearDrawables();
 	void sortDrawables();

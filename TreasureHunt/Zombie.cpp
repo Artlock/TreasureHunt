@@ -35,9 +35,11 @@ void Zombie::ZombieMove()
 
 	if (xPos >= (_playerPosX - Z_DISTANCE) && xPos <= (_playerPosX + Z_DISTANCE) && yPos >= (_playerPosY - Z_DISTANCE) && yPos <= (_playerPosY + Z_DISTANCE))
 	{
-		// Damaging Player
-		_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());
-		std::cout << "I inflicted damage\n";
+		// Damaging Players
+		if (!_player->isDead()) {
+			_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());
+			std::cout << "I inflicted damage\n";
+		}
 	}
 	else
 	{
@@ -47,6 +49,7 @@ void Zombie::ZombieMove()
 
 		direction = _playerPos - zombiePosition;
 		std::cout << "Direction.x = " << direction.x << " , Direction.y = " << direction.y << std::endl;
+
 		normalizedDir = direction / sqrt((direction.x * direction.x) + (direction.y * direction.y));
 
 		_isMoving = true;
