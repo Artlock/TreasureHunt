@@ -35,7 +35,7 @@ void Player::move(float x, float y)
 	float delta = _device->getDeltaTime();
 
 	// Check collision
-	if (_colliders->CompareMap(_x + x * PLAYER_SPEED * delta, _y + y * PLAYER_SPEED * delta))return;
+	if (_colliders->CompareMap(_x + x * PLAYER_SPEED * delta, _y + y * PLAYER_SPEED * delta)) return;
 
 	// Move player
 	_x += x * PLAYER_SPEED * delta;

@@ -1,6 +1,10 @@
 #include "Colliders.h"
 #include "Coordinate.h"
 #include "FileToArray.h"
+#include "Coordinate.h"
+
+#include "Map.h"
+#include "Player.h"
 
 #include <fstream>
 #include <list>
@@ -8,14 +12,14 @@
 
 Colliders::Colliders(std::string pathCollider) : _pathCollider(pathCollider)
 {
-	Coord = new Coordinate(-1,-1);
+	Coord = new Coordinate(-1, -1);
 
 	FileToArray<unsigned long>::ReadFileTo_Array_2D(_pathCollider, MAP_SIZE_H, MAP_SIZE_W, _ColliderData);
 }
 
-Colliders::~Colliders() 
+Colliders::~Colliders()
 {
-	
+
 }
 
 void Colliders::MakeList(int tileSize)
@@ -33,7 +37,7 @@ void Colliders::MakeList(int tileSize)
 			x = j * tileSize * MAP_TILE_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
 			y = i * tileSize * MAP_TILE_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
 			Coord->changeCoordinate(x, y);
-			if (Index != 0) 
+			if (Index != 0)
 			{
 				listCoord.push_back(*Coord);
 			}
@@ -42,24 +46,26 @@ void Colliders::MakeList(int tileSize)
 
 bool Colliders::CompareMap(float x, float y)
 {
-	for (std::list<Coordinate>::iterator it = listCoord.begin(); it != listCoord.end(); ++it) 
+	for (std::list<Coordinate>::iterator it = listCoord.begin(); it != listCoord.end(); ++it)
 	{
-		for (float xBis = x; xBis <= x + TILE_SIZE; xBis += TILE_SIZE) 
+		// Check player against collider
+		for (float xBis = x; xBis <= x + TILE_SIZE * PLAYER_SCALE; xBis += TILE_SIZE * PLAYER_SCALE)
 		{
-			for (float yBis = y; yBis <= y + TILE_SIZE; yBis += TILE_SIZE)
+			for (float yBis = y; yBis <= y + TILE_SIZE * PLAYER_SCALE; yBis += TILE_SIZE * PLAYER_SCALE)
 			{
-				if (it->GetX()+3 <= xBis && it->GetX()+TILE_SIZE-3 >= xBis && it->GetY()+3 <= yBis && it->GetY()+TILE_SIZE-3 >= yBis)
+				if (it->GetX() + GAP <= xBis && it->GetX() + TILE_SIZE * MAP_TILE_SCALE - GAP >= xBis && it->GetY() + GAP <= yBis && it->GetY() + TILE_SIZE * MAP_TILE_SCALE - GAP >= yBis)
 				{
 					return true;
 				}
 			}
 		}
-
-		for (float ITxBis = it->GetX()+3; ITxBis <= it->GetX() + TILE_SIZE-3; ITxBis += TILE_SIZE-2*3)
+		
+		// Check collider against player
+		for (float ITxBis = it->GetX() + GAP; ITxBis <= it->GetX() + TILE_SIZE * MAP_TILE_SCALE - GAP; ITxBis += TILE_SIZE * MAP_TILE_SCALE - (GAP * 2))
 		{
-			for (float ITyBis = it->GetY()+3; ITyBis <= it->GetY() + TILE_SIZE-3; ITyBis += TILE_SIZE-2*3)
+			for (float ITyBis = it->GetY() + GAP; ITyBis <= it->GetY() + TILE_SIZE * MAP_TILE_SCALE - GAP; ITyBis += TILE_SIZE * MAP_TILE_SCALE - (GAP * 2))
 			{
-				if (ITxBis <= x + TILE_SIZE && ITxBis >= x && ITyBis <= y+TILE_SIZE && ITyBis >= y)
+				if (ITxBis <= x + TILE_SIZE * PLAYER_SCALE && ITxBis >= x && ITyBis <= y + TILE_SIZE * PLAYER_SCALE && ITyBis >= y)
 				{
 					return true;
 				}

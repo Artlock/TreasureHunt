@@ -1,15 +1,14 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <list>
-#include "Coordinate.h"
-
-#define MAP_TILE_SCALE 1
-
-#define MAP_SIZE_W 48
-#define MAP_SIZE_H 24
 
 #define TILE_SIZE 16
+
+#define GAP 3
+
+class Coordinate;
 
 class Colliders
 {

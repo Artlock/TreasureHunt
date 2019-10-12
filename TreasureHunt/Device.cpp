@@ -35,7 +35,7 @@ Device::Device(const char* const title)
 
 	// Our colliders
 	_colliders = new Colliders(GetExePath() + "Assets/collider.txt");
-	_colliders->MakeList(16);
+	_colliders->MakeList(SC_TILE_SIZE_XY);
 
 	// Our map
 	_map = new Map(this, GetExePath() + "Assets/sample_fantasy.txt", GetExePath() + "Assets/roofs.txt", GetExePath() + "Assets/layer0.txt");
