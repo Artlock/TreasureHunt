@@ -5,8 +5,16 @@
 #include <string>
 #include <vector>
 
-#define DEVICE_WIDTH 768 // 16 * 48 pixels
-#define DEVICE_HEIGHT 384 // 16 * 24 pixels
+#define DEVICE_WIDTH 150 
+#define DEVICE_HEIGHT 150 
+
+#define INITIAL_POS_WINDOW_WIDTH DEVICE_WIDTH/2
+#define INITIAL_POS_WINDOW_HEIGHT DEVICE_HEIGHT/2
+
+#define MAP_WIDTH 768 // 16 * 48 pixels 
+#define MAP_HEIGHT 384 // 16 * 24 pixels
+
+#define TILE_SIZE 16
 
 #define TO_DISPLAY 1153 // 1152 (= 48 * 24 tiles) + 1 player
 
@@ -18,6 +26,8 @@ class Player;
 class Drawable;
 class Zombie;
 class Colliders;
+class WindowManager;
+class TreasureManager;
 
 class Device
 {
@@ -37,9 +47,11 @@ public:
 private:
 	sf::RenderWindow* _window = NULL;
 	Colliders* _colliders = NULL;
+	WindowManager* _windowManager = NULL;
 	sf::Clock* _clock = NULL;
 
 	SpriteSheet* _spriteSheet = NULL;
+	TreasureManager* _treasureManager = NULL;
 	Map* _map = NULL;
 	Player* _player = NULL;
 	Zombie* _zombie = NULL;

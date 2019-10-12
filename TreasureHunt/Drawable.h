@@ -4,6 +4,7 @@
 
 class Device;
 class SpriteSheet;
+class Coordinate;
 
 class Drawable
 {
@@ -27,7 +28,7 @@ public:
 	Drawable(int sprite, int posX, int posY, int scale, int layer, int drawAfterY, int flipH, int flipV, int flipD);
 	~Drawable();
 
-	void Draw(SpriteSheet* spriteSheet);
+	void Draw(SpriteSheet* spriteSheet, Coordinate* offSet);
 
 	inline int getPosDrawAfterY() { return _posDrawAfterY; }
 

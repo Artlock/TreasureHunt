@@ -15,6 +15,7 @@ class SpriteSheet
 private:
 	Device* _device = NULL;
 
+	sf::Image* _image = NULL;
 	sf::Texture* _texture = NULL;
 	sf::Sprite* _sprite = NULL;
 

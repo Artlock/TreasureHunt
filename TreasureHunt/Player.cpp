@@ -44,14 +44,14 @@ void Player::move(float x, float y)
 	// Prevent going outside of bounds (X axis)
 	if (_x < 0)
 		_x = 0;
-	else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= _device->getWindow()->getSize().x)
-		_x = _device->getWindow()->getSize().x - PLAYER_SIZE_W * PLAYER_SCALE;
+	else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= MAP_WIDTH)
+		_x = MAP_WIDTH - PLAYER_SIZE_W * PLAYER_SCALE;
 
 	// Prevent going outside of bounds (Y axis)
 	if (_y < 0)
 		_y = 0;
-	else if (_y + PLAYER_SIZE_H * PLAYER_SCALE >= _device->getWindow()->getSize().y)
-		_y = _device->getWindow()->getSize().y - PLAYER_SIZE_H * PLAYER_SCALE;
+	else if (_y + PLAYER_SIZE_H * PLAYER_SCALE >= MAP_HEIGHT)
+		_y = MAP_HEIGHT - PLAYER_SIZE_H * PLAYER_SCALE;
 }
 
 void Player::displayPlayer()

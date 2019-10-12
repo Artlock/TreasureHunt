@@ -5,6 +5,8 @@
 #include "Drawable.h"
 #include "Zombie.h"
 #include "Colliders.h"
+#include "WindowManager.h"
+#include "TreasureManager.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -25,13 +27,22 @@ Device::Device(const char* const title)
 {
 	// Our window
 	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title);
+
+	// Limit framerate and set vsync
 	_window->setVerticalSyncEnabled(true);
 	_window->setFramerateLimit(MAX_FRAMERATE);
 
+	// Set window position
+	_window->setPosition(sf::Vector2i(INITIAL_POS_WINDOW_WIDTH, INITIAL_POS_WINDOW_HEIGHT));
+
+	// Create a clock for later
 	_clock = new sf::Clock();
 
 	// Our spritesheet
-	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored.png");
+	_spriteSheet = new SpriteSheet(this, GetExePath() + "Assets/colored_transparent.png");
+
+	// Our treasure
+	_treasureManager = new TreasureManager(this, GetExePath() + "Assets/treasure.txt");
 
 	// Our colliders
 	_colliders = new Colliders(GetExePath() + "Assets/collider.txt");
@@ -45,6 +56,9 @@ Device::Device(const char* const title)
 
 	// Our Zombie
 	_zombie = new Zombie(_player, this, GetExePath() + "Assets/zombie.txt");
+
+	// Our WindowManager
+	_windowManager = new WindowManager(_window, _player);
 
 	// The list that will keep track of the drawing order
 	_toRender = std::vector<Drawable*>(TO_DISPLAY);
@@ -112,7 +126,7 @@ void Device::drawAll()
 {
 	for (int i = 0; i < _toRender.size(); i++)
 	{
-		_toRender[i]->Draw(_spriteSheet);
+		_toRender[i]->Draw(_spriteSheet,_windowManager->GetOffSet());
 	}
 }
 
@@ -153,8 +167,8 @@ void Device::run()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			_zombie->ZombieMove();
 
-		// Clear the window with black
-		_window->clear(sf::Color::Black);
+		// Clear the window with our background color
+		_window->clear(sf::Color(71,45,60,255));
 
 		// Clear the list of items to draw
 		clearDrawables();
@@ -162,12 +176,17 @@ void Device::run()
 		// Add map to list of objects to display
 		_map->displayMap(SC_TILE_SIZE_XY);
 
-		/// Add player to list of objects to display
+		// Add treasure to list of objects to display
+		_treasureManager->displayTreasure();
+
+		// Add player to list of objects to display
 		_player->displayPlayer();
 
 		// Add zombie to list of objects to display
-		// _zombie->ZombieMove();
 		_zombie->ZombieDraw();
+
+		// Update window
+		_windowManager->UpdateWindow();
 
 		// Sort all there is to draw and draw it
 		sortDrawables();
@@ -175,6 +194,13 @@ void Device::run()
 
 		// Display the window's content
 		_window->display();
+
+		// Check finish
+
+		if (_treasureManager->checkTreasure(_player->getPosX(),_player->getPosY())) 
+		{
+			// Mettre la condition finish
+		}
 	}
 
 	// Close the window
