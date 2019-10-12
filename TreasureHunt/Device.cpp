@@ -38,7 +38,7 @@ Device::Device(const char* const title)
 	_colliders->MakeList(16);
 
 	// Our map
-	_map = new Map(this, GetExePath() + "Assets/sample_fantasy.txt", GetExePath() + "Assets/layer0.txt");
+	_map = new Map(this, GetExePath() + "Assets/sample_fantasy.txt", GetExePath() + "Assets/roofs.txt", GetExePath() + "Assets/layer0.txt");
 
 	// Our player
 	_player = new Player(this, _colliders, GetExePath() + "Assets/player.txt");

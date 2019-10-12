@@ -142,7 +142,7 @@ void FileToArray<T>::ReadFileTo_Array_2D(std::string path, int sizeH, int sizeW,
 template<typename T>
 void FileToArray<T>::ReadFileTo_Vector_1D(std::string path, std::vector<T>& myVector)
 {
-	myVector = std::vector<unsigned long>(50);
+	myVector = std::vector<unsigned long>(0);
 
 	std::ifstream myStream(path);
 

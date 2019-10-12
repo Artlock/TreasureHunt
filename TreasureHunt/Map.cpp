@@ -8,10 +8,11 @@
 #include <algorithm> // for std::find
 #include <iterator> // for std::begin, std::end
 
-Map::Map(Device* device, std::string path, std::string pathGround) : _device(device)
+Map::Map(Device* device, std::string path, std::string pathRoofs, std::string pathGround) : _device(device)
 {
 	FileToArray<unsigned long>::ReadFileTo_Array_2D(path, MAP_SIZE_H, MAP_SIZE_W, _mapData);
 	FileToArray<unsigned long>::ReadFileTo_Vector_1D(pathGround, _mapGroundData);
+	FileToArray<unsigned long>::ReadFileTo_Vector_1D(pathRoofs, _mapRoofData);
 }
 
 Map::~Map() // Destructor because ~
@@ -64,17 +65,12 @@ void Map::displayMap(int tileSize)
 			// Check if tile is a "roof/roof-base" (Means it's linked to another tile down below, and should be rendered after said tile)
 			// If tile id = possible "roof/roof-base" id then check below and only display after the base one (Not the one directly below)
 
-			// We're still based on tiled ids here, the spritesheet will -1 the id later
-			int roofTileID = 417; // White wall, eventually replace with a list that contains all possible roof tiles
-			int currentBaseY = y;
+			bool ground = isGround(rawSpriteIndex);
+			int currentBaseY = y; // Current Y pos
+			if (i < MAP_SIZE_H - 1 && isRoof(rawSpriteIndex)) // If there is a tile below and it's also a roof
+				currentBaseY = y + (tileSize * MAP_TILE_SCALE); // Next Y pos
 
-			if (spriteIndex == roofTileID)
-				currentBaseY = checkHasBase(roofTileID, y, tileSize, i, j);
-
-			if (!isGround(spriteIndex))
-				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 1, currentBaseY, flipH, flipV, flipD);
-			else
-				_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, 0, currentBaseY, flipH, flipV, flipD);
+			_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, ground ? 0 : 1, currentBaseY, flipH, flipV, flipD);
 		}
 }
 
@@ -86,12 +82,10 @@ bool Map::isGround(int spriteIndex)
 		});
 }
 
-int Map::checkHasBase(int roofTileID, int defaultY, int tileSize, int currentH, int currentW)
+bool Map::isRoof(int spriteIndex)
 {
-	// -1 because we need to have a tile below to check against
-
-	if (currentH < MAP_SIZE_H - 1 && (_mapData[currentH + 1][currentW] & ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG)) == roofTileID)
-		return (currentH + 1) * tileSize;
-	else
-		return defaultY;
+	// Uses lambda expression ([&] captures all symbols by reference)
+	return std::any_of(std::begin(_mapRoofData), std::end(_mapRoofData), [&](int i) {
+		return i == spriteIndex;
+		});
 }

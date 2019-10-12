@@ -22,13 +22,14 @@ private:
 	const unsigned long FLIPPED_DIAGONALLY_FLAG = 0x20000000;
 
 	unsigned long** _mapData = NULL;
+	std::vector<unsigned long> _mapRoofData;
 	std::vector<unsigned long> _mapGroundData;
 
 	bool isGround(int spriteIndex);
-	int checkHasBase(int roofTileID, int defaultY, int tileSize, int currentH, int currentW);
+	bool isRoof(int spriteIndex);
 
 public:
-	Map(Device* device, std::string path, std::string pathGround); // Constructor
+	Map(Device* device, std::string path, std::string pathRoofs, std::string pathGround); // Constructor
 	~Map(); // Destructor because ~
 
 	void displayMap(int tileSize);
