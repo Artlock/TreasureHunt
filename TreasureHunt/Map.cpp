@@ -65,9 +65,9 @@ void Map::displayMap(int tileSize)
 			// Check if tile is a "roof/roof-base" (Means it's linked to another tile down below, and should be rendered after said tile)
 			// If tile id = possible "roof/roof-base" id then check below and only display after the base one (Not the one directly below)
 
-			bool ground = isGround(rawSpriteIndex);
+			bool ground = isGround(spriteIndex);
 			int currentBaseY = y; // Current Y pos
-			if (i < MAP_SIZE_H - 1 && isRoof(rawSpriteIndex)) // If there is a tile below and it's also a roof
+			if (i < MAP_SIZE_H - 1 && isRoof(spriteIndex)) // If there is a tile below and it's also a roof
 				currentBaseY = y + (tileSize * MAP_TILE_SCALE); // Next Y pos
 
 			_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, ground ? 0 : 1, currentBaseY, flipH, flipV, flipD);
