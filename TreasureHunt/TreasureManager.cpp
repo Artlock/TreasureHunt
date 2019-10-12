@@ -13,11 +13,11 @@ TreasureManager::TreasureManager(Device* device, std::string treasurePath) : _de
 	_listPosTreasure = new std::vector<Coordinate>();
 
 	// Create 1rst dimension
-	_TreasureData = new unsigned long* [MAP_SIZE_Y];
-	memset(_TreasureData, 0, sizeof(unsigned long*) * MAP_SIZE_Y);
+	_TreasureData = new unsigned long* [MAP_SIZE_H];
+	memset(_TreasureData, 0, sizeof(unsigned long*) * MAP_SIZE_H);
 
 	// Create 2nd dimension
-	for (int i = 0; i < MAP_SIZE_Y; i++)
+	for (int i = 0; i < MAP_SIZE_H; i++)
 	{
 		_TreasureData[i] = new unsigned long[MAP_SIZE_W];
 		memset(_TreasureData[i], 0, sizeof(unsigned long) * MAP_SIZE_W);
@@ -72,7 +72,7 @@ TreasureManager::TreasureManager(Device* device, std::string treasurePath) : _de
 	float x = 0.f;
 	float y = 0.f;
 
-	for (int i = 0; i < MAP_SIZE_Y; i++)
+	for (int i = 0; i < MAP_SIZE_H; i++)
 		for (int j = 0; j < MAP_SIZE_W; j++)
 		{
 			// Get raw sprite index with flags

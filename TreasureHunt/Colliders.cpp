@@ -19,7 +19,7 @@ Colliders::Colliders(std::string pathCollider) : _pathCollider(pathCollider)
 
 Colliders::~Colliders()
 {
-	for (int i = 0; i < MAP_SIZE_Y; i++) {
+	for (int i = 0; i < MAP_SIZE_H; i++) {
 		delete[] _ColliderData[i];
 	}
 
