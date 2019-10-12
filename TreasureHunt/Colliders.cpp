@@ -48,7 +48,11 @@ bool Colliders::CompareMap(float x, float y)
 {
 	for (std::list<Coordinate>::iterator it = listCoord.begin(); it != listCoord.end(); ++it)
 	{
-		// Check player against collider
+		// We do two checks player/collider collider/player
+		// If we check just the player (4 corners) against the collider (box), the player can walk over a collider if his corners are between the gaps (Big player small collider)
+		// If we check just the collider (4 corners) against the player (box), the collider can be entered by a player if its corners dont touch the player (Big collider small player)
+
+		// Check player against collider (Is any corner of the player inside the collider?)
 		for (float xBis = x; xBis <= x + TILE_SIZE * PLAYER_SCALE; xBis += TILE_SIZE * PLAYER_SCALE)
 		{
 			for (float yBis = y; yBis <= y + TILE_SIZE * PLAYER_SCALE; yBis += TILE_SIZE * PLAYER_SCALE)
@@ -60,7 +64,7 @@ bool Colliders::CompareMap(float x, float y)
 			}
 		}
 		
-		// Check collider against player
+		// Check collider against player (Is any corner of the collider inside the player?)
 		for (float ITxBis = it->GetX() + GAP; ITxBis <= it->GetX() + TILE_SIZE * MAP_TILE_SCALE - GAP; ITxBis += TILE_SIZE * MAP_TILE_SCALE - (GAP * 2))
 		{
 			for (float ITyBis = it->GetY() + GAP; ITyBis <= it->GetY() + TILE_SIZE * MAP_TILE_SCALE - GAP; ITyBis += TILE_SIZE * MAP_TILE_SCALE - (GAP * 2))
