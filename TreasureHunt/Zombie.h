@@ -3,9 +3,9 @@
 
 #define Z_SPEED 30
 #define Z_INDEX 243
-#define Z_SCALE 1
+#define Z_SCALE 2
 #define Z_ANIMATION_FRAME 2
-#define Z_DAMAGES 10
+#define Z_DAMAGES 30
 #define Z_DISTANCE 10
 
 class Device;
