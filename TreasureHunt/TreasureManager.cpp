@@ -1,13 +1,15 @@
 #include "TreasureManager.h"
 #include "Coordinate.h"
+#include "Device.h"
 #include "Map.h"
+#include "Player.h"
+
 #include <fstream>
 #include <time.h>
 #include <stdlib.h>
 #include <vector>
-#include "Device.h"
 
-TreasureManager::TreasureManager(Device* device, std::string treasurePath) : _device(device) , _treasurePath(treasurePath)
+TreasureManager::TreasureManager(Device* device, std::string treasurePath) : _device(device), _treasurePath(treasurePath)
 {
 	_posTreasure = new Coordinate(-1, -1);
 	_listPosTreasure = new std::vector<Coordinate>();
@@ -94,28 +96,30 @@ TreasureManager::TreasureManager(Device* device, std::string treasurePath) : _de
 	int number = rand() % _listPosTreasure->size();
 	_posTreasure->changeCoordinate(((*_listPosTreasure)[number]).GetX(), ((*_listPosTreasure)[number]).GetY());
 }
-TreasureManager::~TreasureManager() 
+
+TreasureManager::~TreasureManager()
 {
 
 }
-bool TreasureManager::checkTreasure(float playerX, float playerY) 
+
+bool TreasureManager::checkTreasure(float playerX, float playerY)
 {
-	for (float xBis = playerX; xBis <= playerX + TILE_SIZE; xBis += TILE_SIZE)
+	for (float xBis = playerX; xBis <= playerX + TILE_SIZE * PLAYER_SCALE; xBis += TILE_SIZE * PLAYER_SCALE)
 	{
-		for (float yBis = playerY; yBis <= playerY + TILE_SIZE; yBis += TILE_SIZE)
+		for (float yBis = playerY; yBis <= playerY + TILE_SIZE * PLAYER_SCALE; yBis += TILE_SIZE * PLAYER_SCALE)
 		{
-			if (_posTreasure->GetX() + 3 <= xBis && _posTreasure->GetX() + TILE_SIZE - 3 >= xBis && _posTreasure->GetY() + 3 <= yBis && _posTreasure->GetY() + TILE_SIZE - 3 >= yBis)
+			if (_posTreasure->GetX() + 3 <= xBis && _posTreasure->GetX() + TILE_SIZE * MAP_TILE_SCALE - 3 >= xBis && _posTreasure->GetY() + 3 <= yBis && _posTreasure->GetY() + TILE_SIZE * MAP_TILE_SCALE - 3 >= yBis)
 			{
 				return true;
 			}
 		}
 	}
 
-	for (float xBis = _posTreasure->GetX() + 3; xBis <= _posTreasure->GetX() + TILE_SIZE - 3; xBis += TILE_SIZE - 2 * 3)
+	for (float xBis = _posTreasure->GetX() + 3; xBis <= _posTreasure->GetX() + TILE_SIZE * MAP_TILE_SCALE - 3; xBis += TILE_SIZE * MAP_TILE_SCALE - (3 * 2))
 	{
-		for (float yBis = _posTreasure->GetY() + 3; yBis <= _posTreasure->GetY() + TILE_SIZE - 3; yBis += TILE_SIZE - 2 * 3)
+		for (float yBis = _posTreasure->GetY() + 3; yBis <= _posTreasure->GetY() + TILE_SIZE * MAP_TILE_SCALE - 3; yBis += TILE_SIZE * MAP_TILE_SCALE - (3 * 2))
 		{
-			if (xBis <= playerX + TILE_SIZE && xBis >= playerX && yBis <= playerY + TILE_SIZE && yBis >= playerY)
+			if (xBis <= playerX + TILE_SIZE * PLAYER_SCALE && xBis >= playerX && yBis <= playerY + TILE_SIZE * PLAYER_SCALE && yBis >= playerY)
 			{
 				return true;
 			}
@@ -123,7 +127,8 @@ bool TreasureManager::checkTreasure(float playerX, float playerY)
 	}
 	return false;
 }
-void TreasureManager::displayTreasure() 
+
+void TreasureManager::displayTreasure()
 {
 	_device->addDrawable(152, _posTreasure->GetX(), _posTreasure->GetY(), MAP_TILE_SCALE, 2, 0, 0, 0);
 }

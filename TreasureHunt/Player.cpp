@@ -2,6 +2,7 @@
 #include "Device.h"
 #include "Animator.h"
 #include "Colliders.h"
+#include "Map.h"
 
 #include <iostream>
 
@@ -44,14 +45,14 @@ void Player::move(float x, float y)
 	// Prevent going outside of bounds (X axis)
 	if (_x < 0)
 		_x = 0;
-	else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= MAP_WIDTH)
-		_x = MAP_WIDTH - PLAYER_SIZE_W * PLAYER_SCALE;
+	else if (_x + PLAYER_SIZE_W * PLAYER_SCALE >= MAP_WIDTH * MAP_TILE_SCALE)
+		_x = MAP_WIDTH * MAP_TILE_SCALE - PLAYER_SIZE_W * PLAYER_SCALE;
 
 	// Prevent going outside of bounds (Y axis)
 	if (_y < 0)
 		_y = 0;
-	else if (_y + PLAYER_SIZE_H * PLAYER_SCALE >= MAP_HEIGHT)
-		_y = MAP_HEIGHT - PLAYER_SIZE_H * PLAYER_SCALE;
+	else if (_y + PLAYER_SIZE_H * PLAYER_SCALE >= MAP_HEIGHT * MAP_TILE_SCALE)
+		_y = MAP_HEIGHT * MAP_TILE_SCALE - PLAYER_SIZE_H * PLAYER_SCALE;
 }
 
 void Player::displayPlayer()

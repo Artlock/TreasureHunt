@@ -7,7 +7,7 @@
 
 #define PLAYER_SPEED 100
 
-#define PLAYER_SCALE 1
+#define PLAYER_SCALE 2
 
 #define PLAYER_ANIMATION_FRAMES 2
 
