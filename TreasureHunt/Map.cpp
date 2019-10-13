@@ -1,3 +1,5 @@
+#include "OPTIONS.h"
+
 #include "Map.h"
 #include "Device.h"
 #include "FileToArray.h"

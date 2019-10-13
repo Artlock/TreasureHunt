@@ -1,3 +1,5 @@
+#include "OPTIONS.h"
+
 #include "Device.h"
 #include "SpriteSheet.h"
 #include "Map.h"
@@ -8,7 +10,6 @@
 #include "WindowManager.h"
 #include "TreasureManager.h"
 
-// #include <Text.hpp>
 #include <iostream>
 #include <Windows.h>
 #include <algorithm>

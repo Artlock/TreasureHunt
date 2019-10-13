@@ -1,3 +1,5 @@
+#include "OPTIONS.h"
+
 #include "Animator.h"
 #include "FileToArray.h"
 
@@ -18,7 +20,7 @@ void Animator::Step(float delta)
 {
 	_currentDelta += delta;
 
-	float delayBetweenFrames = 1.0f / (float) (ANIMATOR_FRAMES * ANIMATOR_SPEED);
+	float delayBetweenFrames = 1.0f / (float)(ANIMATOR_FRAMES * ANIMATOR_SPEED);
 	while (_currentDelta > delayBetweenFrames)
 	{
 		_currentDelta -= delayBetweenFrames;

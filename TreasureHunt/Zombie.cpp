@@ -1,7 +1,10 @@
+#include "OPTIONS.h"
+
 #include "Zombie.h"
 #include "Device.h"
 #include "Player.h"
 #include "Animator.h"
+
 #include <iostream>
 
 // Warning, the Zombie is currently a Ghost (Ignores collisions)!
@@ -12,7 +15,6 @@ Zombie::Zombie(Player* player, Device* device, std::string path)
 	_animator = new Animator(path, Z_ANIMATION_FRAME);
 	_isMoving = true;
 }
-
 
 Zombie::~Zombie()
 {

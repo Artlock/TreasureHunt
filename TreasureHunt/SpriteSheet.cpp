@@ -1,3 +1,5 @@
+#include "OPTIONS.h"
+
 #include "SpriteSheet.h"
 #include "Device.h"
 

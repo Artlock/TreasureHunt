@@ -1,8 +1,7 @@
 #pragma once
+
 #include <string>
 #include <vector>
-
-#define TILE_SIZE 16
 
 class Coordinate;
 class Device;
@@ -21,4 +20,3 @@ public:
 	void displayTreasure();
 
 };
-

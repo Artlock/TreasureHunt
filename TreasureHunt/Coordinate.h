@@ -1,4 +1,5 @@
 #pragma once
+
 class Coordinate
 {
 private:
@@ -11,4 +12,3 @@ public:
 	int GetX();
 	int GetY();
 };
-

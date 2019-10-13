@@ -1,8 +1,9 @@
+#include "OPTIONS.h"
+
 #include "Player.h"
 #include "Device.h"
 #include "Animator.h"
 #include "Colliders.h"
-#include "Map.h"
 
 #include <iostream>
 

@@ -2,9 +2,6 @@
 
 #include <string>
 
-#define ANIMATOR_FRAMES 2 // 2 images per second
-#define ANIMATOR_SPEED 2 // Timescale of the animation
-
 class SpriteSheet;
 
 class Animator

@@ -3,11 +3,6 @@
 #include <string>
 #include <vector>
 
-#define MAP_TILE_SCALE 2
-
-#define MAP_SIZE_W 48
-#define MAP_SIZE_H 24
-
 class Device;
 
 class Map

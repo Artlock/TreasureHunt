@@ -4,10 +4,6 @@
 #include <string>
 #include <list>
 
-#define TILE_SIZE 16
-
-#define GAP 3
-
 class Coordinate;
 
 class Colliders

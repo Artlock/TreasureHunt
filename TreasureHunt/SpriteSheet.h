@@ -3,11 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-#define SC_TILE_NB_XY 32
-
-#define SC_TILE_SIZE_XY 16
-#define SC_TILE_GAP_XY 1
-
 class Device;
 
 class SpriteSheet

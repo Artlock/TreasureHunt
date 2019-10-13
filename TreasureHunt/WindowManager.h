@@ -1,7 +1,7 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
 
 class Player;
 class Coordinate;
@@ -20,4 +20,3 @@ public:
 	void UpdateWindow();
 	Coordinate* GetOffSet();
 };
-

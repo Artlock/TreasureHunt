@@ -1,10 +1,8 @@
+#include "OPTIONS.h"
+
 #include "Colliders.h"
 #include "Coordinate.h"
 #include "FileToArray.h"
-#include "Coordinate.h"
-
-#include "Map.h"
-#include "Player.h"
 
 #include <fstream>
 #include <list>
@@ -63,17 +61,17 @@ bool Colliders::CompareMap(float x, float y)
 		{
 			for (float yBis = y; yBis <= y + TILE_SIZE * PLAYER_SCALE; yBis += TILE_SIZE * PLAYER_SCALE)
 			{
-				if (it->GetX() + GAP <= xBis && it->GetX() + TILE_SIZE * MAP_TILE_SCALE - GAP >= xBis && it->GetY() + GAP <= yBis && it->GetY() + TILE_SIZE * MAP_TILE_SCALE - GAP >= yBis)
+				if (it->GetX() + COLLISIONS_GAP <= xBis && it->GetX() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP >= xBis && it->GetY() + COLLISIONS_GAP <= yBis && it->GetY() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP >= yBis)
 				{
 					return true;
 				}
 			}
 		}
-		
+
 		// Check collider against player (Is any corner of the collider inside the player?)
-		for (float ITxBis = it->GetX() + GAP; ITxBis <= it->GetX() + TILE_SIZE * MAP_TILE_SCALE - GAP; ITxBis += TILE_SIZE * MAP_TILE_SCALE - (GAP * 2))
+		for (float ITxBis = it->GetX() + COLLISIONS_GAP; ITxBis <= it->GetX() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP; ITxBis += TILE_SIZE * MAP_TILE_SCALE - (COLLISIONS_GAP * 2))
 		{
-			for (float ITyBis = it->GetY() + GAP; ITyBis <= it->GetY() + TILE_SIZE * MAP_TILE_SCALE - GAP; ITyBis += TILE_SIZE * MAP_TILE_SCALE - (GAP * 2))
+			for (float ITyBis = it->GetY() + COLLISIONS_GAP; ITyBis <= it->GetY() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP; ITyBis += TILE_SIZE * MAP_TILE_SCALE - (COLLISIONS_GAP * 2))
 			{
 				if (ITxBis <= x + TILE_SIZE * PLAYER_SCALE && ITxBis >= x && ITyBis <= y + TILE_SIZE * PLAYER_SCALE && ITyBis >= y)
 				{

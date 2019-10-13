@@ -15,5 +15,5 @@ Drawable::~Drawable()
 
 void Drawable::Draw(SpriteSheet* spriteSheet, Coordinate* offSet)
 {
-	spriteSheet->DrawSprite(_sprite, _posX-offSet->GetX(), _posY - offSet->GetY(), _scale, _flipH, _flipV, _flipD);
+	spriteSheet->DrawSprite(_sprite, _posX - offSet->GetX(), _posY - offSet->GetY(), _scale, _flipH, _flipV, _flipD);
 }

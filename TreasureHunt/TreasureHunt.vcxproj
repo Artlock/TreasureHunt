@@ -262,6 +262,7 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="FileToArray.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="OPTIONS.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="Zombie.h" />
