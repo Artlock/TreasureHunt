@@ -29,8 +29,8 @@ TreasureManager::TreasureManager(Device* device, std::string treasurePath) : _de
 			// Get raw sprite index with flags
 			Index = _TreasureData[i][j];
 
-			x = j * TILE_SIZE * MAP_TILE_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
-			y = i * TILE_SIZE * MAP_TILE_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
+			x = j * SC_TILE_SIZE_XY * MAP_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
+			y = i * SC_TILE_SIZE_XY * MAP_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
 			if (Index != 0)
 			{
 				_posTreasure->changeCoordinate(x, y);
@@ -54,22 +54,22 @@ TreasureManager::~TreasureManager()
 
 bool TreasureManager::checkTreasure(float playerX, float playerY)
 {
-	for (float xBis = playerX; xBis <= playerX + TILE_SIZE * PLAYER_SCALE; xBis += TILE_SIZE * PLAYER_SCALE)
+	for (float xBis = playerX; xBis <= playerX + SC_TILE_SIZE_XY * PLAYER_SCALE; xBis += SC_TILE_SIZE_XY * PLAYER_SCALE)
 	{
-		for (float yBis = playerY; yBis <= playerY + TILE_SIZE * PLAYER_SCALE; yBis += TILE_SIZE * PLAYER_SCALE)
+		for (float yBis = playerY; yBis <= playerY + SC_TILE_SIZE_XY * PLAYER_SCALE; yBis += SC_TILE_SIZE_XY * PLAYER_SCALE)
 		{
-			if (_posTreasure->GetX() + 3 <= xBis && _posTreasure->GetX() + TILE_SIZE * MAP_TILE_SCALE - 3 >= xBis && _posTreasure->GetY() + 3 <= yBis && _posTreasure->GetY() + TILE_SIZE * MAP_TILE_SCALE - 3 >= yBis)
+			if (_posTreasure->GetX() + 3 <= xBis && _posTreasure->GetX() + SC_TILE_SIZE_XY * MAP_SCALE - 3 >= xBis && _posTreasure->GetY() + 3 <= yBis && _posTreasure->GetY() + SC_TILE_SIZE_XY * MAP_SCALE - 3 >= yBis)
 			{
 				return true;
 			}
 		}
 	}
 
-	for (float xBis = _posTreasure->GetX() + 3; xBis <= _posTreasure->GetX() + TILE_SIZE * MAP_TILE_SCALE - 3; xBis += TILE_SIZE * MAP_TILE_SCALE - (3 * 2))
+	for (float xBis = _posTreasure->GetX() + 3; xBis <= _posTreasure->GetX() + SC_TILE_SIZE_XY * MAP_SCALE - 3; xBis += SC_TILE_SIZE_XY * MAP_SCALE - (3 * 2))
 	{
-		for (float yBis = _posTreasure->GetY() + 3; yBis <= _posTreasure->GetY() + TILE_SIZE * MAP_TILE_SCALE - 3; yBis += TILE_SIZE * MAP_TILE_SCALE - (3 * 2))
+		for (float yBis = _posTreasure->GetY() + 3; yBis <= _posTreasure->GetY() + SC_TILE_SIZE_XY * MAP_SCALE - 3; yBis += SC_TILE_SIZE_XY * MAP_SCALE - (3 * 2))
 		{
-			if (xBis <= playerX + TILE_SIZE * PLAYER_SCALE && xBis >= playerX && yBis <= playerY + TILE_SIZE * PLAYER_SCALE && yBis >= playerY)
+			if (xBis <= playerX + SC_TILE_SIZE_XY * PLAYER_SCALE && xBis >= playerX && yBis <= playerY + SC_TILE_SIZE_XY * PLAYER_SCALE && yBis >= playerY)
 			{
 				return true;
 			}
@@ -80,5 +80,5 @@ bool TreasureManager::checkTreasure(float playerX, float playerY)
 
 void TreasureManager::displayTreasure()
 {
-	_device->addDrawable(152, _posTreasure->GetX(), _posTreasure->GetY(), MAP_TILE_SCALE, 2, 0, 0, 0);
+	_device->addDrawable(152, _posTreasure->GetX(), _posTreasure->GetY(), MAP_SCALE, 2, 0, 0, 0);
 }

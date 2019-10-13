@@ -61,8 +61,8 @@ void Map::displayMap(int tileSize)
 			flipV = (rawSpriteIndex & FLIPPED_VERTICALLY_FLAG) == FLIPPED_VERTICALLY_FLAG;
 			flipD = (rawSpriteIndex & FLIPPED_DIAGONALLY_FLAG) == FLIPPED_DIAGONALLY_FLAG;
 
-			x = j * tileSize * MAP_TILE_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
-			y = i * tileSize * MAP_TILE_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
+			x = j * tileSize * MAP_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
+			y = i * tileSize * MAP_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
 
 			// Check if tile is a "roof/roof-base" (Means it's linked to another tile down below, and should be rendered after said tile)
 			// If tile id = possible "roof/roof-base" id then check below and only display after the base one (Not the one directly below)
@@ -70,9 +70,9 @@ void Map::displayMap(int tileSize)
 			bool ground = isGround(spriteIndex);
 			int currentBaseY = y; // Current Y pos
 			if (i < MAP_SIZE_H - 1 && isRoof(spriteIndex)) // If there is a tile below and it's also a roof
-				currentBaseY = y + (tileSize * MAP_TILE_SCALE); // Next Y pos
+				currentBaseY = y + (tileSize * MAP_SCALE); // Next Y pos
 
-			_device->addDrawable(spriteIndex, x, y, MAP_TILE_SCALE, ground ? 0 : 1, currentBaseY, flipH, flipV, flipD);
+			_device->addDrawable(spriteIndex, x, y, MAP_SCALE, ground ? 0 : 1, currentBaseY, flipH, flipV, flipD);
 		}
 }
 

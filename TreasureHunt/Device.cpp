@@ -63,7 +63,7 @@ Device::Device(const char* const title)
 	_windowManager = new WindowManager(_window, _player);
 
 	// The list that will keep track of the drawing order
-	_toRender = std::vector<Drawable*>(TO_DISPLAY);
+	_toRender = std::vector<Drawable*>(TO_RENDER);
 
 	// Load the font
 	bool loadResult = myFont.loadFromFile(GetExePath() + "Assets/DejaVuSans.ttf");
@@ -213,7 +213,7 @@ void Device::run()
 
 		if (createWindow) {
 			timer += _deltaTime;
-			if (timer >= END_DELAY)
+			if (timer >= END_OF_GAME_DELAY)
 				quit();
 		}
 

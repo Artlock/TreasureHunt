@@ -38,8 +38,8 @@ void Colliders::MakeList(int tileSize)
 			// Get raw sprite index with flags
 			Index = _ColliderData[i][j];
 
-			x = j * tileSize * MAP_TILE_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
-			y = i * tileSize * MAP_TILE_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
+			x = j * tileSize * MAP_SCALE; // Pixels on x, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
+			y = i * tileSize * MAP_SCALE; // Pixels on y, taking into account scale (Only works in this context for scale since we're drawing from 0 to END)
 			Coord->changeCoordinate(x, y);
 			if (Index != 0)
 			{
@@ -57,11 +57,11 @@ bool Colliders::CompareMap(float x, float y)
 		// If we check just the collider (4 corners) against the player (box), the collider can be entered by a player if its corners dont touch the player (Big collider small player)
 
 		// Check player against collider (Is any corner of the player inside the collider?)
-		for (float xBis = x; xBis <= x + TILE_SIZE * PLAYER_SCALE; xBis += TILE_SIZE * PLAYER_SCALE)
+		for (float xBis = x; xBis <= x + SC_TILE_SIZE_XY * PLAYER_SCALE; xBis += SC_TILE_SIZE_XY * PLAYER_SCALE)
 		{
-			for (float yBis = y; yBis <= y + TILE_SIZE * PLAYER_SCALE; yBis += TILE_SIZE * PLAYER_SCALE)
+			for (float yBis = y; yBis <= y + SC_TILE_SIZE_XY * PLAYER_SCALE; yBis += SC_TILE_SIZE_XY * PLAYER_SCALE)
 			{
-				if (it->GetX() + COLLISIONS_GAP <= xBis && it->GetX() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP >= xBis && it->GetY() + COLLISIONS_GAP <= yBis && it->GetY() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP >= yBis)
+				if (it->GetX() + COLLIDERS_GAP <= xBis && it->GetX() + SC_TILE_SIZE_XY * MAP_SCALE - COLLIDERS_GAP >= xBis && it->GetY() + COLLIDERS_GAP <= yBis && it->GetY() + SC_TILE_SIZE_XY * MAP_SCALE - COLLIDERS_GAP >= yBis)
 				{
 					return true;
 				}
@@ -69,11 +69,11 @@ bool Colliders::CompareMap(float x, float y)
 		}
 
 		// Check collider against player (Is any corner of the collider inside the player?)
-		for (float ITxBis = it->GetX() + COLLISIONS_GAP; ITxBis <= it->GetX() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP; ITxBis += TILE_SIZE * MAP_TILE_SCALE - (COLLISIONS_GAP * 2))
+		for (float ITxBis = it->GetX() + COLLIDERS_GAP; ITxBis <= it->GetX() + SC_TILE_SIZE_XY * MAP_SCALE - COLLIDERS_GAP; ITxBis += SC_TILE_SIZE_XY * MAP_SCALE - (COLLIDERS_GAP * 2))
 		{
-			for (float ITyBis = it->GetY() + COLLISIONS_GAP; ITyBis <= it->GetY() + TILE_SIZE * MAP_TILE_SCALE - COLLISIONS_GAP; ITyBis += TILE_SIZE * MAP_TILE_SCALE - (COLLISIONS_GAP * 2))
+			for (float ITyBis = it->GetY() + COLLIDERS_GAP; ITyBis <= it->GetY() + SC_TILE_SIZE_XY * MAP_SCALE - COLLIDERS_GAP; ITyBis += SC_TILE_SIZE_XY * MAP_SCALE - (COLLIDERS_GAP * 2))
 			{
-				if (ITxBis <= x + TILE_SIZE * PLAYER_SCALE && ITxBis >= x && ITyBis <= y + TILE_SIZE * PLAYER_SCALE && ITyBis >= y)
+				if (ITxBis <= x + SC_TILE_SIZE_XY * PLAYER_SCALE && ITxBis >= x && ITyBis <= y + SC_TILE_SIZE_XY * PLAYER_SCALE && ITyBis >= y)
 				{
 					return true;
 				}

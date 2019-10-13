@@ -12,7 +12,7 @@
 Zombie::Zombie(Player* player, Device* device, std::string path)
 	: _player(player), _device(device)
 {
-	_animator = new Animator(path, Z_ANIMATION_FRAME);
+	_animator = new Animator(path, ZOMBIE_ANIMATION_FRAMES);
 	_isMoving = true;
 }
 
@@ -34,11 +34,11 @@ void Zombie::ZombieMove()
 	float _playerPosY = _player->getPosY();
 
 	// Zombie Behavior
-	if (xPos >= (_playerPosX - Z_DISTANCE) && xPos <= (_playerPosX + Z_DISTANCE) && yPos >= (_playerPosY - Z_DISTANCE) && yPos <= (_playerPosY + Z_DISTANCE))
+	if (xPos >= (_playerPosX - ZOMBIE_DISTANCE) && xPos <= (_playerPosX + ZOMBIE_DISTANCE) && yPos >= (_playerPosY - ZOMBIE_DISTANCE) && yPos <= (_playerPosY + ZOMBIE_DISTANCE))
 	{
 		// Damaging Players (Only if player isnt dead and hasn't won)
 		if (!_player->isDead() && !_device->hasWin) {
-			_player->TakesDamage(Z_DAMAGES * _device->getDeltaTime());
+			_player->TakesDamage(ZOMBIE_DAMAGE * _device->getDeltaTime());
 			//std::cout << "I inflicted damage\n";
 		}
 	}
@@ -56,7 +56,7 @@ void Zombie::ZombieMove()
 		_isMoving = true;
 		_lastWasLeft = direction.x >= 0 ? false : true;
 
-		speed = Z_SPEED * _device->getDeltaTime();
+		speed = ZOMBIE_SPEED * _device->getDeltaTime();
 
 		xPos = xPos + normalizedDir.x * speed;
 		yPos = yPos + normalizedDir.y * speed;
@@ -77,8 +77,8 @@ void Zombie::ZombieDraw()
 	}
 	else {
 		_animator->Reset();
-		toDraw = Z_INDEX;
+		toDraw = ZOMBIE_IDLE_SPRITE;
 	}
 
-	_device->addDrawable(toDraw, xPos, yPos, Z_SCALE, 1, yPos, (_lastWasLeft ? 1 : 0), 0, 0);
+	_device->addDrawable(toDraw, xPos, yPos, ZOMBIE_SCALE, 1, yPos, (_lastWasLeft ? 1 : 0), 0, 0);
 }
