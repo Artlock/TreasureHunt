@@ -41,7 +41,9 @@ private:
 	WindowManager* _windowManager = NULL;
 
 	sf::Clock* _clock = NULL;
+
 	sf::Font myFont;
+	sf::Text startText;
 	sf::Text goText;
 	sf::Text winText;
 
@@ -59,7 +61,9 @@ private:
 
 
 	float _deltaTime = 0.0f;
-	float timer = 0;
+
+	float timer_start = 0.0f;
+	float timer_end = 0.0f;
 
 	void clearDrawables();
 	void sortDrawables();

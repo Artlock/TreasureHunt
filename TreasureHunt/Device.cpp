@@ -74,6 +74,13 @@ Device::Device(const char* const title)
 	}
 	//std::cout << GetExePath() + "Assets/DejaVuSans.ttf" << std::endl;
 
+	// Initiate Start Text
+	startText.setString("Find the diamond and avoid the ghost!");
+	startText.setFont(myFont);
+	startText.setCharacterSize(30);
+	startText.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	startText.setFillColor(sf::Color::Blue);
+
 	// Initiate GameOver Text
 	goText.setString("You Lose!");
 	goText.setFont(myFont);
@@ -171,6 +178,12 @@ void Device::run()
 
 	sf::Event event;
 
+	// Play startup text
+	sf::RenderWindow* startWindow = new sf::RenderWindow(sf::VideoMode(700, 80), "Welcome");
+	startWindow->clear(sf::Color::White);
+	startWindow->draw(startText);
+	startWindow->display();
+
 	// Game loop
 	while (_isRunning)
 	{
@@ -178,6 +191,16 @@ void Device::run()
 		_deltaTime = _clock->restart().asSeconds();
 
 		//std::cout << "Delta Time : " << _deltaTime << std::endl;
+
+		if (startWindow != NULL)
+		{
+			timer_start += _deltaTime;
+			if (timer_start >= START_OF_GAME_DELAY)
+			{
+				startWindow->close();
+				startWindow = NULL;
+			}
+		}
 
 		// Manage events
 		while (_window->pollEvent(event))
@@ -187,33 +210,27 @@ void Device::run()
 				quit();
 		}
 
-		if (_player->isDead()) {
-			sf::RenderWindow* endWindow = NULL;
-			if (!createWindow) {
-				std::cout << "You're DEAD!\n";
-				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The End");
-				createWindow = true;
-				endWindow->clear(sf::Color::White);
-				endWindow->draw(goText);
-				endWindow->display();
-			}
+		if (_player->isDead() && !createWindow) {
+			std::cout << "You're DEAD!\n";
+			sf::RenderWindow* endWindow = new sf::RenderWindow(sf::VideoMode(200, 80), "The End");
+			createWindow = true;
+			endWindow->clear(sf::Color::White);
+			endWindow->draw(goText);
+			endWindow->display();
 		}
 
-		if (hasWin) {
-			sf::RenderWindow* endWindow = NULL;
-			if (!createWindow) {
-				std::cout << "You've WON!\n";
-				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The End");
-				createWindow = true;
-				endWindow->clear(sf::Color::White);
-				endWindow->draw(winText);
-				endWindow->display();
-			}
+		if (hasWin && !createWindow) {
+			std::cout << "You've WON!\n";
+			sf::RenderWindow* endWindow = new sf::RenderWindow(sf::VideoMode(200, 80), "The End");
+			createWindow = true;
+			endWindow->clear(sf::Color::White);
+			endWindow->draw(winText);
+			endWindow->display();
 		}
 
 		if (createWindow) {
-			timer += _deltaTime;
-			if (timer >= END_OF_GAME_DELAY)
+			timer_end += _deltaTime;
+			if (timer_end >= END_OF_GAME_DELAY)
 				quit();
 		}
 
