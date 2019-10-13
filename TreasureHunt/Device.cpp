@@ -71,7 +71,7 @@ Device::Device(const char* const title)
 		// Error
 		sf::err();
 	}
-	std::cout << GetExePath() + "Assets/DejaVuSans.ttf" << std::endl;
+	//std::cout << GetExePath() + "Assets/DejaVuSans.ttf" << std::endl;
 
 	// Initiate GameOver Text
 	goText.setString("You Lose!");
@@ -91,7 +91,7 @@ Device::Device(const char* const title)
 	int horizontal = 0;
 	int vertical = 0;
 	GetDesktopResolution(horizontal, vertical);
-	std::cout << horizontal << " " << vertical << std::endl;
+	//std::cout << horizontal << " " << vertical << std::endl;
 	lifeBar = new sf::RenderWindow(sf::VideoMode(_player->_pLife * 5, 50), "Lifebar", sf::Style::None);
 	lifeBar->setPosition(sf::Vector2i(horizontal - 550, vertical - 100));
 }
