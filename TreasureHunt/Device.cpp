@@ -27,7 +27,7 @@ std::string GetExePath()
 Device::Device(const char* const title)
 {
 	// Our window
-	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title);
+	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title, sf::Style::None);
 
 	// Limit framerate and set vsync
 	_window->setVerticalSyncEnabled(true);
@@ -164,8 +164,6 @@ void Device::drawAll()
 
 void Device::run()
 {
-
-
 	// State and timer for deltaTime
 	_isRunning = true;
 	_clock->restart();
@@ -188,29 +186,26 @@ void Device::run()
 				quit();
 		}
 
-		// Manage user inputs here
-		if (!_player->isDead()) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				_player->move(-1.0f, 0.0f);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				_player->move(1.0f, 0.0f);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-				_player->move(0.0f, -1.0f);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-				_player->move(0.0f, 1.0f);
-		}
-
-		else if (_player->isDead()) {
-			std::cout << "You're Dead!\n";
+		if (_player->isDead()) {
 			sf::RenderWindow* endWindow = NULL;
 			if (!createWindow) {
-				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The Game has ended");
+				std::cout << "You're DEAD!\n";
+				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The End");
 				createWindow = true;
-			}
-			if (endWindow != NULL)
-			{
 				endWindow->clear(sf::Color::White);
 				endWindow->draw(goText);
+				endWindow->display();
+			}
+		}
+
+		if (hasWin) {
+			sf::RenderWindow* endWindow = NULL;
+			if (!createWindow) {
+				std::cout << "You've WON!\n";
+				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The End");
+				createWindow = true;
+				endWindow->clear(sf::Color::White);
+				endWindow->draw(winText);
 				endWindow->display();
 			}
 		}
@@ -221,18 +216,16 @@ void Device::run()
 				quit();
 		}
 
-		if (hasWin) {
-			sf::RenderWindow* endWindow = NULL;
-			if (!createWindow) {
-				endWindow = new sf::RenderWindow(sf::VideoMode(200, 200), "The Game has ended");
-				createWindow = true;
-			}
-			if (endWindow != NULL)
-			{
-				endWindow->clear(sf::Color::White);
-				endWindow->draw(winText);
-				endWindow->display();
-			}
+		// Manage user inputs here
+		if (!_player->isDead()) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				_player->move(-1.0f, 0.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				_player->move(1.0f, 0.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				_player->move(0.0f, -1.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				_player->move(0.0f, 1.0f);
 		}
 
 		// Move zombie on keyboard press
@@ -273,7 +266,7 @@ void Device::run()
 		// Check finish
 		if (_treasureManager->checkTreasure(_player->getPosX(), _player->getPosY()))
 		{
-			// Mettre la condition finish
+			hasWin = true;
 		}
 
 		// Update lifebar

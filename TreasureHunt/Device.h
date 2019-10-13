@@ -18,7 +18,7 @@
 
 #define TO_DISPLAY 1153 // 1152 (= 48 * 24 tiles) + 1 player
 
-#define MAX_FRAMERATE 60
+#define MAX_FRAMERATE 144
 
 #define END_DELAY 5
 
