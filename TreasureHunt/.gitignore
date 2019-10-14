@@ -32,7 +32,7 @@
 *.app
 
 # Visual Studio Extras
-*/.vs
+*.vs
 
 # Extras
 *.ilk
