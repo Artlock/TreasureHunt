@@ -31,7 +31,7 @@ Device::Device(const char* const title)
 	_window = new sf::RenderWindow(sf::VideoMode(DEVICE_WIDTH, DEVICE_HEIGHT), title, sf::Style::None);
 
 	// Limit framerate and set vsync
-	_window->setVerticalSyncEnabled(true);
+	//_window->setVerticalSyncEnabled(true);
 	_window->setFramerateLimit(MAX_FRAMERATE);
 
 	// Set window position
