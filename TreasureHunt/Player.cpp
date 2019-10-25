@@ -85,6 +85,7 @@ void Player::TakesDamage(float damage)
 		_device->quit();
 	}
 	//std::cout << "Player's Life = " << _pLife << std::endl;
+	// std::cout << "Player pos = (" << _x << ", " << _y << ")" << std::endl;
 
 	_device->lifeBar->setSize(sf::Vector2u(_pLife * 5, 50));
 }
